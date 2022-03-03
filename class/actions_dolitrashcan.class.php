@@ -78,7 +78,9 @@ class ActionsDoliTrashCan
 	{
 		global $conf, $user, $langs;
 
-		$error = 0; // Error counter
+		// Error counter
+		$error = 0;
+
 		// $parameters = [
 		// 	'GET' => $_GET,
 		// 	'file' => $file,
@@ -86,13 +88,14 @@ class ActionsDoliTrashCan
 		// 	'nophperrors' => $nophperrors
 		// ];
 
-		setEventMessage('TRASHCAN ' . $action . ' Context: ' . $parameters['currentcontext'] . ' File: ' . $parameters['file'], 'warnings');
-		setEventMessage('TRASHCAN Filename to store: ' . str_replace(DOL_DATA_ROOT . '/', '', $parameters['file']), 'warnings');
-		if (is_object($object)) {
-			setEventMessage('TRASHCAN ' . $action . ' Element: ' . $object->element . ' Id: ' . $object->id, 'warnings');
-		}
-		setEventMessage(self::getRandomDir(4) . self::getUuid() . '.trash', 'warnings');
 		if (in_array($parameters['currentcontext'], ['fileslib'])) {
+			setEventMessage('TRASHCAN ' . $action . ' Context: ' . $parameters['currentcontext'] . ' File: ' . $parameters['file'], 'warnings');
+			setEventMessage('TRASHCAN Filename to store: ' . str_replace(DOL_DATA_ROOT . '/', '', $parameters['file']), 'warnings');
+			if (is_object($object)) {
+				setEventMessage('TRASHCAN ' . $action . ' Element: ' . $object->element . ' Id: ' . $object->id, 'warnings');
+			}
+			setEventMessage(self::getRandomDir(4) . self::getUuid() . '.trash', 'warnings');
+
 			$langs->loadLangs(["dolitrashcan@dolitrashcan"]);
 			// TODO HERE IS LA PLACE FOR DAS MAGIE 🥁
 			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move
@@ -123,10 +126,10 @@ class ActionsDoliTrashCan
 	 */
 	private function getRandomDir($num)
 	{
-		$char = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$char = '0123456789abcdefghijklmnopqrstuvwxyz';
 		$ret = '';
 		for ($j = 0; $j < $num; $j++) {
-			$i = rand(0, 32);
+			$i = rand(0, strlen($char) - 1);
 			$ret .= $char[$i] . '/';
 		}
 		return $ret;

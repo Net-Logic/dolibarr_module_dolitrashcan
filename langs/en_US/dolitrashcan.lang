@@ -20,7 +20,7 @@
 # Module label 'ModuleDoliTrashCanName'
 ModuleDoliTrashCanName = DoliTrashCan
 # Module description 'ModuleDoliTrashCanDesc'
-ModuleDoliTrashCanDesc = DoliTrashCan description
+ModuleDoliTrashCanDesc=La corbeille de dolibarr pour ne plus perdre vos fichiers supprimés
 
 #
 # Admin page
@@ -41,13 +41,4 @@ About = About
 DoliTrashCanAbout = About DoliTrashCan
 DoliTrashCanAboutPage = DoliTrashCan about page
 
-#
-# Sample page
-#
-MyPageName = My page name
-
-#
-# Sample widget
-#
-MyWidget = My widget
-MyWidgetDescription = My widget description
+DolitrashcanErrorMovingFileToTrashcan=Erreur lors du déplacement du fichier dans la corbeille.
