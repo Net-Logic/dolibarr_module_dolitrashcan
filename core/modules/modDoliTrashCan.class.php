@@ -307,63 +307,26 @@ class modDoliTrashCan extends DolibarrModules
 		$r = 0;
 		// Add here entries to declare new menus
 		$this->menu[$r++] = [
-			'fk_menu' => '', // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-			'type' => 'top', // This is a Top menu entry
-			'titre' => 'ModuleDoliTrashCanName',
+			// '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+			'fk_menu' => 'fk_mainmenu=ecm,fk_leftmenu=ecm',
+			// This is a Top menu entry
+			'type' => 'left',
+			'titre' => 'DoliTrashCan',
 			'prefix' => img_picto('', $this->picto, 'class="paddingright pictofixedwidth valignmiddle"'),
-			'mainmenu' => 'dolitrashcan',
-			'leftmenu' => '',
+			'mainmenu' => 'ecm',
+			'leftmenu' => 'ecm',
 			'url' => '/dolitrashcan/dolitrashcanindex.php',
-			'langs' => 'dolitrashcan@dolitrashcan', // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+			// Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+			'langs' => 'dolitrashcan@dolitrashcan',
 			'position' => 1000 + $r,
-			'enabled' => '$conf->dolitrashcan->enabled', // Define condition to show or hide menu entry. Use '$conf->dolitrashcan->enabled' if entry must be visible if module is enabled.
-			'perms' => '1', // Use 'perms'=>'$user->rights->dolitrashcan->myobject->read' if you want your menu with a permission rules
+			// Define condition to show or hide menu entry. Use '$conf->dolitrashcan->enabled' if entry must be visible if module is enabled.
+			'enabled' => '$conf->dolitrashcan->enabled',
+			// Use 'perms'=>'$user->rights->dolitrashcan->level1->level2' if you want your menu with a permission rules
+			'perms' => '$user->rights->dolitrashcan->read',
 			'target' => '',
-			'user' => 0, // 0=Menu for internal users, 1=external users, 2=both
+			// 0=Menu for internal users, 1=external users, 2=both
+			'user' => 0,
 		];
-		// $this->menu[$r++]=[
-		// 	'fk_menu'=>'fk_mainmenu=dolitrashcan',      // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-		// 	'type'=>'left',                          // This is a Top menu entry
-		// 	'titre'=>'MyObject',
-		// 	'prefix' => img_picto('', $this->picto, 'class="paddingright pictofixedwidth valignmiddle"'],
-		// 	'mainmenu'=>'dolitrashcan',
-		// 	'leftmenu'=>'myobject',
-		// 	'url'=>'/dolitrashcan/dolitrashcanindex.php',
-		// 	'langs'=>'dolitrashcan@dolitrashcan',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-		// 	'position'=>1000+$r,
-		// 	'enabled'=>'$conf->dolitrashcan->enabled',  // Define condition to show or hide menu entry. Use '$conf->dolitrashcan->enabled' if entry must be visible if module is enabled.
-		// 	'perms'=>'$user->rights->dolitrashcan->myobject->read',			                // Use 'perms'=>'$user->rights->dolitrashcan->level1->level2' if you want your menu with a permission rules
-		// 	'target'=>'',
-		// 	'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-		// );
-		// $this->menu[$r++]=[
-		// 	'fk_menu'=>'fk_mainmenu=dolitrashcan,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-		// 	'type'=>'left',			                // This is a Left menu entry
-		// 	'titre'=>'List_MyObject',
-		// 	'mainmenu'=>'dolitrashcan',
-		// 	'leftmenu'=>'dolitrashcan_myobject_list',
-		// 	'url'=>'/dolitrashcan/myobject_list.php',
-		// 	'langs'=>'dolitrashcan@dolitrashcan',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-		// 	'position'=>1000+$r,
-		// 	'enabled'=>'$conf->dolitrashcan->enabled',  // Define condition to show or hide menu entry. Use '$conf->dolitrashcan->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-		// 	'perms'=>'$user->rights->dolitrashcan->myobject->read',			                // Use 'perms'=>'$user->rights->dolitrashcan->level1->level2' if you want your menu with a permission rules
-		// 	'target'=>'',
-		// 	'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-		// );
-		// $this->menu[$r++]=[
-		// 	'fk_menu'=>'fk_mainmenu=dolitrashcan,fk_leftmenu=myobject',	    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-		// 	'type'=>'left',			                // This is a Left menu entry
-		// 	'titre'=>'New_MyObject',
-		// 	'mainmenu'=>'dolitrashcan',
-		// 	'leftmenu'=>'dolitrashcan_myobject_new',
-		// 	'url'=>'/dolitrashcan/myobject_card.php?action=create',
-		// 	'langs'=>'dolitrashcan@dolitrashcan',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-		// 	'position'=>1000+$r,
-		// 	'enabled'=>'$conf->dolitrashcan->enabled',  // Define condition to show or hide menu entry. Use '$conf->dolitrashcan->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-		// 	'perms'=>'$user->rights->dolitrashcan->myobject->write',			                // Use 'perms'=>'$user->rights->dolitrashcan->level1->level2' if you want your menu with a permission rules
-		// 	'target'=>'',
-		// 	'user'=>2,				                // 0=Menu for internal users, 1=external users, 2=both
-		// );
 	}
 
 	/**
