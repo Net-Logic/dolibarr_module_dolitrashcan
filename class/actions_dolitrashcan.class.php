@@ -86,19 +86,65 @@ class ActionsDoliTrashCan
 		// 	'nophperrors' => $nophperrors
 		// ];
 
-		setEventMessage('TRASHCAN ' . $action . ' Context: ' . $parameters['currentcontext'] . ' File: ' . $parameters['file']);
+		setEventMessage('TRASHCAN ' . $action . ' Context: ' . $parameters['currentcontext'] . ' File: ' . $parameters['file'], 'warnings');
+		setEventMessage('TRASHCAN Filename to store: ' . str_replace(DOL_DATA_ROOT . '/', '', $parameters['file']), 'warnings');
 		if (is_object($object)) {
-			setEventMessage('TRASHCAN ' . $action . ' Element: ' . $object->element . ' Id: ' . $object->id);
+			setEventMessage('TRASHCAN ' . $action . ' Element: ' . $object->element . ' Id: ' . $object->id, 'warnings');
 		}
+		setEventMessage(self::getRandomDir(4) . self::getUuid() . '.trash', 'warnings');
 		if (in_array($parameters['currentcontext'], ['fileslib'])) {
-			// TODO HERE IS LA PLACE FOR MAGIE
+			$langs->loadLangs(["dolitrashcan@dolitrashcan"]);
+			// TODO HERE IS LA PLACE FOR DAS MAGIE 🥁
+			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move
+			// On success save info into db
+			// id (rowid...)
+			// original filename (remove DOL_DATA_ROOT)
+			// mimetype
+			// original_created_at
+			// deleted_at
+			// deleted_by (he's fired)
+			// element
+			// fk_element
+			// filename in trashcan A/B/C/D/uuid.trash (create function to generate random) so we can delete several time the same file
 		}
 		if (!$error) {
 			// or return 1 to replace standard code
 			return 0;
 		} else {
-			$this->errors[] = 'Error message';
+			$this->errors[] = $langs->trans('DolitrashcanErrorMovingFileToTrashcan');
 			return -1;
 		}
+	}
+
+	/**
+	 * generate random dir
+	 * @param int $num number of subdirectories
+	 * @return string
+	 */
+	private function getRandomDir($num)
+	{
+		$char = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$ret = '';
+		for ($j = 0; $j < $num; $j++) {
+			$i = rand(0, 32);
+			$ret .= $char[$i] . '/';
+		}
+		return $ret;
+	}
+
+	/**
+	 * generate uuid
+	 * @return string
+	 */
+	private function getUuid()
+	{
+		try {
+			$data = random_bytes(16);
+		} catch (Exception $e) {
+			// empty catch if not enough entropy
+		}
+		$data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+		$data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+		return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 	}
 }
