@@ -1,5 +1,6 @@
 # Generated binaries
 /build/*.zip
+/bin/*.zip
 /build/Untitled-1
 # Doxygen generated documentation
 /build/doxygen/doxygen_warnings.log

@@ -1,5 +1,5 @@
 <?php
-/* Copyright (C) 2022 SuperAdmin <frederic.france@netlogic.fr>
+/* Copyright (C) 2022 		Frédéric France 		<frederic.france@netlogic.fr>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ function dolitrashcanAdminPrepareHead()
 	$langs->load("dolitrashcan@dolitrashcan");
 
 	$h = 0;
-	$head = array();
+	$head = [];
 
 	$head[$h][0] = dol_buildpath("/dolitrashcan/admin/setup.php", 1);
 	$head[$h][1] = $langs->trans("Settings");
@@ -54,15 +54,15 @@ function dolitrashcanAdminPrepareHead()
 
 	// Show more tabs from modules
 	// Entries must be declared in modules descriptor with line
-	//$this->tabs = array(
+	//$this->tabs = [
 	//	'entity:+tabname:Title:@dolitrashcan:/dolitrashcan/mypage.php?id=__ID__'
-	//); // to add new tab
-	//$this->tabs = array(
+	//]; // to add new tab
+	//$this->tabs = [
 	//	'entity:-tabname:Title:@dolitrashcan:/dolitrashcan/mypage.php?id=__ID__'
-	//); // to remove a tab
-	complete_head_from_modules($conf, $langs, null, $head, $h, 'dolitrashcan@dolitrashcan');
+	//]; // to remove a tab
+	complete_head_from_modules($conf, $langs, null, $head, $h, 'dolitrashcanadmin@dolitrashcan');
 
-	complete_head_from_modules($conf, $langs, null, $head, $h, 'dolitrashcan@dolitrashcan', 'remove');
+	complete_head_from_modules($conf, $langs, null, $head, $h, 'dolitrashcanadmin@dolitrashcan', 'remove');
 
 	return $head;
 }

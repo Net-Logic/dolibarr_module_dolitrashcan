@@ -65,7 +65,7 @@ class DoliTrashCanFunctionalTest extends \PHPUnit_Extensions_Selenium2TestCase
 			'browser' => 'Google Chrome on Linux',
 			'browserName' => 'chrome',
 			'sessionStrategy' => 'shared',
-			'desiredCapabilities' => array()
+			'desiredCapabilities' => []
 		),
 		// Geckodriver does not keep the session at the moment?!
 		// XPath selectors also don't seem to work
@@ -172,7 +172,7 @@ class DoliTrashCanFunctionalTest extends \PHPUnit_Extensions_Selenium2TestCase
 	{
 		$this->url('/admin/modules.php');
 		$this->authenticate();
-		$module_status_image_path = '//a[contains(@href, "'.self::$module_id.'")]/img';
+		$module_status_image_path = '//a[contains(@href, "' . self::$module_id . '")]/img';
 		$module_status_image = $this->byXPath($module_status_image_path);
 		if (strstr($module_status_image->attribute('src'), 'switch_off.png')) {
 			// Enable the module
