@@ -89,23 +89,17 @@ class ActionsDoliTrashCan
 		// ];
 
 		if (in_array($parameters['currentcontext'], ['fileslib'])) {
-			// setEventMessage('TRASHCAN ' . $action . ' Context: ' . $parameters['currentcontext'] . ' File: ' . $parameters['file'], 'warnings');
-			// setEventMessage('TRASHCAN Filename to store: ' . str_replace(DOL_DATA_ROOT . '/', '', $parameters['file']), 'warnings');
-			// if (is_object($object)) {
-			// 	setEventMessage('TRASHCAN ' . $action . ' Element: ' . $object->element . ' Id: ' . $object->id, 'warnings');
-			// }
 			// TODO paranoiac check if already exist
 			$movetodir = self::getRandomDir(4);
 			$movetofilename = $movetodir . self::getUuid() . '.trash';
 
 			$langs->loadLangs(["other", "dolitrashcan@dolitrashcan"]);
-			// replace translation 'on the fly' to change nest message only
+			// replace translation 'on the fly' to change next message only
 			$langs->tab_translate['FileWasRemoved'] = $langs->tab_translate['DoliTrashCanFileWasMovedTo'];
 
 			// TODO HERE IS LA PLACE FOR DAS MAGIE 🥁
 			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move (restore will be done with dol_move to recreate ecm data)
 			dol_mkdir(DOL_DATA_ROOT . '/dolitrashcan/' . $movetodir);
-			// var_dump($parameters['file'], DOL_DATA_ROOT . '/dolitrashcan/' . $movetofilename);
 			if (!copy($parameters['file'], DOL_DATA_ROOT . '/dolitrashcan/' . $movetofilename)) {
 				$error++;
 			}
