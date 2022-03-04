@@ -48,3 +48,4 @@ DoliTrashCanDeletedFiles=Fichiers supprimés
 DoliTrashCanMimetype=Mimetype
 DoliTrashCanDeletedBy=Supprimé par
 DoliTrashCanContext=Contexte
+DoliTrashCanFileWasMovedTo=Le fichier %s a été déplacé dans la corbeille.
