@@ -1,4 +1,4 @@
-# Copyright (C) 2022 SuperAdmin <frederic.france@netlogic.fr>
+# Copyright (C) 2022 Frédéric France <frederic.france@netlogic.fr>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,21 +25,20 @@ ModuleDoliTrashCanDesc=La corbeille de dolibarr pour ne plus perdre vos fichiers
 #
 # Admin page
 #
-DoliTrashCanSetup = DoliTrashCan setup
-Settings = Settings
-DoliTrashCanSetupPage = DoliTrashCan setup page
-DOLITRASHCAN_MYPARAM1 = My param 1
-DOLITRASHCAN_MYPARAM1Tooltip = My param 1 tooltip
-DOLITRASHCAN_MYPARAM2=My param 2
-DOLITRASHCAN_MYPARAM2Tooltip=My param 2 tooltip
+DoliTrashCanSetup=La corbeille de dolibarr
+DoliTrashCanSettings=Paramétrage de la corbeille
+DoliTrashCanSetupPage=DoliTrashCan setup page
+DOLITRASHCAN_DAYS_BEFORE_DELETE=Jours avant la suppression définitive
+DOLITRASHCAN_DAYS_BEFORE_DELETETooltip=Les fichiers présent dans la corbeille depuis ce nombre de jours seront définitivement supprimés
 
 
 #
 # About page
 #
 About = About
-DoliTrashCanAbout = About DoliTrashCan
-DoliTrashCanAboutPage = DoliTrashCan about page
+DoliTrashCanAbout=A propos de DoliTrashCan
+DoliTrashCanAboutPage=Espace Corbeille
+DoliTrashCanArea=Corbeille
 
 DoliTrashCan=Corbeille
 DolitrashcanErrorMovingFileToTrashcan=Erreur lors du déplacement du fichier dans la corbeille.

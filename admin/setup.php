@@ -30,10 +30,10 @@ require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
 require_once '../lib/dolitrashcan.lib.php';
 
 // Translations
-$langs->loadLangs(array("admin", "dolitrashcan@dolitrashcan"));
+$langs->loadLangs(["admin", "dolitrashcan@dolitrashcan"]);
 
 // Initialize technical object to manage hooks of page. Note that conf->hooks_modules contains array of hook context
-$hookmanager->initHooks(array('dolitrashcansetup', 'globalsetup'));
+$hookmanager->initHooks(['dolitrashcansetup', 'globalsetup']);
 
 // Access control
 if (!$user->admin) {
@@ -52,14 +52,18 @@ $label = GETPOST('label', 'alpha');
 $type = 'myobject';
 
 $arrayofparameters = array(
-	'DOLITRASHCAN_MYPARAM1' => array('type' => 'string', 'css' => 'minwidth500', 'enabled' => 1),
-	'DOLITRASHCAN_MYPARAM2' => array('type' => 'textarea', 'enabled' => 1),
-	//'DOLITRASHCAN_MYPARAM3'=>array('type'=>'category:'.Categorie::TYPE_CUSTOMER, 'enabled'=>1),
-	//'DOLITRASHCAN_MYPARAM4'=>array('type'=>'emailtemplate:thirdparty', 'enabled'=>1),
-	//'DOLITRASHCAN_MYPARAM5'=>array('type'=>'yesno', 'enabled'=>1),
-	//'DOLITRASHCAN_MYPARAM5'=>array('type'=>'thirdparty_type', 'enabled'=>1),
-	//'DOLITRASHCAN_MYPARAM6'=>array('type'=>'securekey', 'enabled'=>1),
-	//'DOLITRASHCAN_MYPARAM7'=>array('type'=>'product', 'enabled'=>1),
+	'DOLITRASHCAN_DAYS_BEFORE_DELETE' => [
+		'type' => 'string',
+		'css' => 'minwidth500',
+		'enabled' => 1,
+	],
+	// 'DOLITRASHCAN_MYPARAM2' => ['type' => 'textarea', 'enabled' => 1],
+	// 'DOLITRASHCAN_MYPARAM3'=>['type'=>'category:'.Categorie::TYPE_CUSTOMER, 'enabled'=>1],
+	// 'DOLITRASHCAN_MYPARAM4'=>['type'=>'emailtemplate:thirdparty', 'enabled'=>1],
+	// 'DOLITRASHCAN_MYPARAM5'=>['type'=>'yesno', 'enabled'=>1],
+	// 'DOLITRASHCAN_MYPARAM5'=>['type'=>'thirdparty_type', 'enabled'=>1],
+	// 'DOLITRASHCAN_MYPARAM6'=>['type'=>'securekey', 'enabled'=>1],
+	// 'DOLITRASHCAN_MYPARAM7'=>['type'=>'product', 'enabled'=>1],
 );
 
 $error = 0;
