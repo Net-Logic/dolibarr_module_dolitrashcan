@@ -89,22 +89,25 @@ class ActionsDoliTrashCan
 		// ];
 
 		if (in_array($parameters['currentcontext'], ['fileslib'])) {
-			setEventMessage('TRASHCAN ' . $action . ' Context: ' . $parameters['currentcontext'] . ' File: ' . $parameters['file'], 'warnings');
-			setEventMessage('TRASHCAN Filename to store: ' . str_replace(DOL_DATA_ROOT . '/', '', $parameters['file']), 'warnings');
-			if (is_object($object)) {
-				setEventMessage('TRASHCAN ' . $action . ' Element: ' . $object->element . ' Id: ' . $object->id, 'warnings');
-			}
+			// setEventMessage('TRASHCAN ' . $action . ' Context: ' . $parameters['currentcontext'] . ' File: ' . $parameters['file'], 'warnings');
+			// setEventMessage('TRASHCAN Filename to store: ' . str_replace(DOL_DATA_ROOT . '/', '', $parameters['file']), 'warnings');
+			// if (is_object($object)) {
+			// 	setEventMessage('TRASHCAN ' . $action . ' Element: ' . $object->element . ' Id: ' . $object->id, 'warnings');
+			// }
 			// TODO paranoiac check if already exist
-			$movetodir = DOL_DATA_ROOT . '/dolitrashcan/' . self::getRandomDir(4);
+			$movetodir = self::getRandomDir(4);
 			$movetofilename = $movetodir . self::getUuid() . '.trash';
 
 			$langs->loadLangs(["dolitrashcan@dolitrashcan"]);
 			// TODO HERE IS LA PLACE FOR DAS MAGIE 🥁
 			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move (restore will be done with dol_move to recreate ecm data)
-			dol_mkdir($movetodir);
-			if (!copy($parameters['file'], $movetofilename)) {
+			dol_mkdir(DOL_DATA_ROOT . '/dolitrashcan/' . $movetodir);
+			// var_dump($parameters['file'], DOL_DATA_ROOT . '/dolitrashcan/' . $movetofilename);
+			if (!copy($parameters['file'], DOL_DATA_ROOT . '/dolitrashcan/' . $movetofilename)) {
 				$error++;
 			}
+			$mimetype = dol_mimetype($parameters['file']);
+			$filelastmod = filemtime($parameters['file']);
 			// On success save info into db
 			// id (rowid...)
 			// original filename (remove DOL_DATA_ROOT)
@@ -115,6 +118,30 @@ class ActionsDoliTrashCan
 			// element
 			// fk_element
 			// filename in trashcan A/B/C/D/uuid.trash (create function to generate random) so we can delete several time the same file
+			$now = dol_now();
+			if (!$error) {
+				$sql = 'INSERT INTO ' . MAIN_DB_PREFIX . 'dolitrashcan (';
+				$sql .= 'original_filename';
+				$sql .= ', original_created_at';
+				$sql .= ', mimetype';
+				$sql .= ', deleted_at';
+				$sql .= ', deleted_by';
+				$sql .= ', element';
+				$sql .= ', fk_element';
+				$sql .= ', trashcan_filename';
+				$sql .= ') VALUES (';
+				$sql .= '"' . $this->db->escape(str_replace(DOL_DATA_ROOT, '', $parameters['file'])) . '"';
+				$sql .= ' , ' . ($filelastmod ? '"' . $this->db->idate($filelastmod) . '"' : "null");
+				$sql .= ' , "' . $this->db->escape($mimetype) . '"';
+				$sql .= ' , "' . $this->db->idate($now) . '"';
+				$sql .= ' , ' . (is_object($user) ? (int) $user->id : "null");
+				$sql .= ' , ' . (is_object($object) ? ('"' . $this->db->escape($object->element) . '"') : "null");
+				$sql .= ' , ' . (is_object($object) ? (int) $object->id : "null");
+				$sql .= ' , "' . $this->db->escape($movetofilename) . '"';
+				$sql .= ')';
+
+				$this->db->query($sql);
+			}
 		}
 		if (!$error) {
 			// or return 1 to replace standard code
