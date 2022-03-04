@@ -36,16 +36,9 @@ function dolitrashcanAdminPrepareHead()
 	$head = [];
 
 	$head[$h][0] = dol_buildpath("/dolitrashcan/admin/setup.php", 1);
-	$head[$h][1] = $langs->trans("Settings");
+	$head[$h][1] = $langs->trans("DoliTrashCanSettings");
 	$head[$h][2] = 'settings';
 	$h++;
-
-	/*
-	$head[$h][0] = dol_buildpath("/dolitrashcan/admin/myobject_extrafields.php", 1);
-	$head[$h][1] = $langs->trans("ExtraFields");
-	$head[$h][2] = 'myobject_extrafields';
-	$h++;
-	*/
 
 	$head[$h][0] = dol_buildpath("/dolitrashcan/admin/about.php", 1);
 	$head[$h][1] = $langs->trans("About");
