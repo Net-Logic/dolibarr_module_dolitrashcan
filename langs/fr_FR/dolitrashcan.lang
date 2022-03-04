@@ -41,4 +41,8 @@ About = About
 DoliTrashCanAbout = About DoliTrashCan
 DoliTrashCanAboutPage = DoliTrashCan about page
 
+DoliTrashCan=Corbeille
 DolitrashcanErrorMovingFileToTrashcan=Erreur lors du déplacement du fichier dans la corbeille.
+DoliTrashCanFileRestored=Le fichier %s a été restauré, l'utilisateur %s ne sera pas viré.
+DoliTrashCanRestoreFile=Récupérer le fichier depuis la corbeille
+DoliTrashCanDeletedFiles=Fichiers supprimés

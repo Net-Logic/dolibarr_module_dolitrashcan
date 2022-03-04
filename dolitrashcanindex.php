@@ -28,11 +28,13 @@
 include 'config.php';
 
 require_once DOL_DOCUMENT_ROOT . '/core/class/html.formfile.class.php';
+require_once DOL_DOCUMENT_ROOT . '/core/lib/files.lib.php';
 
 // Load translation files required by the page
 $langs->loadLangs(["dolitrashcan@dolitrashcan"]);
 
 $action = GETPOST('action', 'aZ09');
+$id = GETPOST('id', 'int');
 
 
 // Security check
@@ -45,15 +47,43 @@ if (isset($user->socid) && $user->socid > 0) {
 	$socid = $user->socid;
 }
 
-$max = 5;
-$now = dol_now();
-
-
 /*
  * Actions
  */
 
-// None
+if ($action == 'restorefile' && $id > 0) {
+	// restore the file
+	$sql = "SELECT rowid";
+	$sql .= ', original_filename';
+	$sql .= ', original_created_at';
+	$sql .= ', mimetype';
+	$sql .= ', deleted_at';
+	$sql .= ', deleted_by';
+	$sql .= ', element';
+	$sql .= ', fk_element';
+	$sql .= ', trashcan_filename';
+	$sql .= ' FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
+	$sql .= ' WHERE rowid=' . (int) $id;
+	// print $sql;
+	$resql = $db->query($sql);
+	if ($resql && ($db->num_rows($resql) > 0)) {
+		$file = $db->fetch_object($resql);
+		$tmpuser = new User($db);
+		$tmpuser->firstname = 'John';
+		$tmpuser->lastname = "Doe";
+		if (!empty($file->deleted_by) && $tmpuser->fetch($file->deleted_by)) {
+			// print $tmpuser->getNomUrl(1);
+		}
+		dol_copy(DOL_DATA_ROOT.'/dolitrashcan/'.$file->trashcan_filename, DOL_DATA_ROOT.$file->original_filename);
+		@unlink(DOL_DATA_ROOT.'/dolitrashcan/'.$file->trashcan_filename);
+		$sql = 'DELETE FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
+		$sql .= ' WHERE rowid=' . (int) $id;
+		$resql = $db->query($sql);
+		setEventMessage($langs->trans('DoliTrashCanFileRestored', $file->original_filename, $tmpuser->getFullName($langs)));
+	} else {
+		setEventMessage($langs->trans('DoliTrashCanSomethingWentWrong'));
+	}
+}
 
 
 /*
@@ -67,12 +97,12 @@ llxHeader("", $langs->trans("DoliTrashCanArea"));
 
 print load_fiche_titre($langs->trans("DoliTrashCanArea"), '', 'object_dolitrashcan_32.png@dolitrashcan');
 
-// Draft MyObject
+// DoliTrashCan Objects
 if (!empty($user->rights->dolitrashcan->read)) {
 	$langs->load("dolitrashcan@dolitrashcan");
 
-	$sql = "SELECT ";
-	$sql .= 'original_filename';
+	$sql = "SELECT rowid";
+	$sql .= ', original_filename';
 	$sql .= ', original_created_at';
 	$sql .= ', mimetype';
 	$sql .= ', deleted_at';
@@ -90,6 +120,7 @@ if (!empty($user->rights->dolitrashcan->read)) {
 	print '<th>' . $langs->trans("DoliTrashCanMimetype") . '</th>';
 	print '<th>' . $langs->trans("DoliTrashCanDeletedBy") . '</th>';
 	print '<th>' . $langs->trans("DoliTrashCanContext") . '</th>';
+	print '<th></th>';
 	print '</tr>';
 	while ($resql && $obj = $db->fetch_object($resql)) {
 		print '<tr class="oddeven">';
@@ -100,18 +131,24 @@ if (!empty($user->rights->dolitrashcan->read)) {
 		print $obj->mimetype;
 		print '</td>';
 		print '<td>';
-		print $obj->deleted_by;
+		$tmpuser = new User($db);
+		if (!empty($obj->deleted_by) && $tmpuser->fetch($obj->deleted_by)) {
+			print $tmpuser->getNomUrl(1);
+		}
 		print '</td>';
 		print '<td>';
-		print $obj->element.'/'.$obj->fk_element;
+		$tmpobject = fetchObjectByElement($obj->fk_element, $obj->element);
+		if (is_object($tmpobject)) {
+			print $tmpobject->getNomUrl(1);
+		}
+		print '</td>';
+		print '<td>';
+		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=restorefile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanRestoreFile'), 'object_dolitrashcan.png@dolitrashcan') . '</a>';
 		print '</td>';
 		print '</tr>';
 	}
 }
 print "</table><br>";
-
-$db->free($resql);
-
 
 // End of page
 llxFooter();
