@@ -94,11 +94,17 @@ class ActionsDoliTrashCan
 			if (is_object($object)) {
 				setEventMessage('TRASHCAN ' . $action . ' Element: ' . $object->element . ' Id: ' . $object->id, 'warnings');
 			}
-			setEventMessage(self::getRandomDir(4) . self::getUuid() . '.trash', 'warnings');
+			// TODO paranoiac check if already exist
+			$movetodir = DOL_DATA_ROOT . '/dolitrashcan/' . self::getRandomDir(4);
+			$movetofilename = $movetodir . self::getUuid() . '.trash';
 
 			$langs->loadLangs(["dolitrashcan@dolitrashcan"]);
 			// TODO HERE IS LA PLACE FOR DAS MAGIE 🥁
-			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move
+			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move (restore will be done with dol_move to recreate ecm data)
+			dol_mkdir($movetodir);
+			if (!copy($parameters['file'], $movetofilename)) {
+				$error++;
+			}
 			// On success save info into db
 			// id (rowid...)
 			// original filename (remove DOL_DATA_ROOT)
