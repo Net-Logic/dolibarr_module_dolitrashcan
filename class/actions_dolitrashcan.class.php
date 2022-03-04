@@ -76,7 +76,7 @@ class ActionsDoliTrashCan
 	 */
 	public function deleteFile($parameters, &$object, &$action, $hookmanager)
 	{
-		global $conf, $user, $langs;
+		global $user, $langs;
 
 		// Error counter
 		$error = 0;
@@ -98,7 +98,10 @@ class ActionsDoliTrashCan
 			$movetodir = self::getRandomDir(4);
 			$movetofilename = $movetodir . self::getUuid() . '.trash';
 
-			$langs->loadLangs(["dolitrashcan@dolitrashcan"]);
+			$langs->loadLangs(["other", "dolitrashcan@dolitrashcan"]);
+			// replace translation 'on the fly' to change nest message only
+			$langs->tab_translate['FileWasRemoved'] = $langs->tab_translate['DoliTrashCanFileWasMovedTo'];
+
 			// TODO HERE IS LA PLACE FOR DAS MAGIE 🥁
 			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move (restore will be done with dol_move to recreate ecm data)
 			dol_mkdir(DOL_DATA_ROOT . '/dolitrashcan/' . $movetodir);
