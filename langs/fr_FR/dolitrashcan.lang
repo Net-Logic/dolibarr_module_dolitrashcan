@@ -46,3 +46,6 @@ DolitrashcanErrorMovingFileToTrashcan=Erreur lors du déplacement du fichier dan
 DoliTrashCanFileRestored=Le fichier %s a été restauré, l'utilisateur %s ne sera pas viré.
 DoliTrashCanRestoreFile=Récupérer le fichier depuis la corbeille
 DoliTrashCanDeletedFiles=Fichiers supprimés
+DoliTrashCanMimetype=Mimetype
+DoliTrashCanDeletedBy=Supprimé par
+DoliTrashCanContext=Contexte
