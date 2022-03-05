@@ -38,9 +38,9 @@ $id = GETPOST('id', 'int');
 
 
 // Security check
-// if (! $user->rights->dolitrashcan->myobject->read) {
-// 	accessforbidden();
-// }
+if (empty($user->rights->dolitrashcan->read)) {
+	accessforbidden();
+}
 $socid = GETPOST('socid', 'int');
 if (isset($user->socid) && $user->socid > 0) {
 	$action = '';
@@ -51,7 +51,7 @@ if (isset($user->socid) && $user->socid > 0) {
  * Actions
  */
 
-if ($action == 'restorefile' && $id > 0) {
+if (($action == 'restorefile' || $action == 'destroyfile') && $id > 0) {
 	// restore the file
 	$sql = "SELECT rowid";
 	$sql .= ', original_filename';
@@ -64,7 +64,7 @@ if ($action == 'restorefile' && $id > 0) {
 	$sql .= ', trashcan_filename';
 	$sql .= ' FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
 	$sql .= ' WHERE rowid=' . (int) $id;
-	// print $sql;
+
 	$resql = $db->query($sql);
 	if ($resql && ($db->num_rows($resql) > 0)) {
 		$file = $db->fetch_object($resql);
@@ -74,13 +74,19 @@ if ($action == 'restorefile' && $id > 0) {
 		if (!empty($file->deleted_by) && $tmpuser->fetch($file->deleted_by)) {
 			// print $tmpuser->getNomUrl(1);
 		}
-		dol_copy(DOL_DATA_ROOT.'/dolitrashcan/'.$file->trashcan_filename, DOL_DATA_ROOT.$file->original_filename);
-		@unlink(DOL_DATA_ROOT.'/dolitrashcan/'.$file->trashcan_filename);
+		$mesg = 'DoliTrashCanFileDestroyed';
+		if ($action == 'restorefile') {
+			$mesg = 'DoliTrashCanFileRestored';
+			dol_copy(DOL_DATA_ROOT . '/dolitrashcan/' . $file->trashcan_filename, DOL_DATA_ROOT . $file->original_filename);
+		}
+		@unlink(DOL_DATA_ROOT . '/dolitrashcan/' . $file->trashcan_filename);
 		$sql = 'DELETE FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
 		$sql .= ' WHERE rowid=' . (int) $id;
 		$resql = $db->query($sql);
-		setEventMessage($langs->trans('DoliTrashCanFileRestored', $file->original_filename, $tmpuser->getFullName($langs)));
-	} else {
+		setEventMessage($langs->trans($mesg, $file->original_filename, $tmpuser->getFullName($langs)));
+	} elseif ($resql && ($db->num_rows($resql) == 0)) {
+		setEventMessage($langs->trans('DoliTrashCanSomethingNotFound'));
+	} elseif (!$resql) {
 		setEventMessage($langs->trans('DoliTrashCanSomethingWentWrong'));
 	}
 }
@@ -143,7 +149,9 @@ if (!empty($user->rights->dolitrashcan->read)) {
 		}
 		print '</td>';
 		print '<td>';
-		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=restorefile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanRestoreFile'), 'object_dolitrashcan.png@dolitrashcan') . '</a>';
+		// fontawesome_envelope-open-text_fas_red_1em
+		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=restorefile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanRestoreFile'), 'fontawesome_recycle_fa_green_1em') . '</a>';
+		print '&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?action=destroyfile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanDestroy'), 'fontawesome_trash_fa_red_1em') . '</a>';
 		print '</td>';
 		print '</tr>';
 	}

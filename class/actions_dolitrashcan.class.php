@@ -93,30 +93,28 @@ class ActionsDoliTrashCan
 			$movetodir = self::getRandomDir(4);
 			$movetofilename = $movetodir . self::getUuid() . '.trash';
 
-			$langs->loadLangs(["other", "dolitrashcan@dolitrashcan"]);
-			// replace translation 'on the fly' to change next message only
-			$langs->tab_translate['FileWasRemoved'] = $langs->tab_translate['DoliTrashCanFileWasMovedTo'];
-
 			// TODO HERE IS LA PLACE FOR DAS MAGIE 🥁
 			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move (restore will be done with dol_move to recreate ecm data)
-			dol_mkdir(DOL_DATA_ROOT . '/dolitrashcan/' . $movetodir);
-			if (!copy($parameters['file'], DOL_DATA_ROOT . '/dolitrashcan/' . $movetofilename)) {
+			if (!mkdir(DOL_DATA_ROOT . '/dolitrashcan/' . $movetodir, 0777, true)) {
+				$error++;
+			};
+			if (!$error && !copy($parameters['file'], DOL_DATA_ROOT . '/dolitrashcan/' . $movetofilename)) {
 				$error++;
 			}
-			$mimetype = dol_mimetype($parameters['file']);
-			$filelastmod = filemtime($parameters['file']);
-			// On success save info into db
-			// id (rowid...)
-			// original filename (remove DOL_DATA_ROOT)
-			// mimetype
-			// original_created_at
-			// deleted_at
-			// deleted_by (he's fired)
-			// element
-			// fk_element
-			// filename in trashcan A/B/C/D/uuid.trash (create function to generate random) so we can delete several time the same file
-			$now = dol_now();
 			if (!$error) {
+				$mimetype = dol_mimetype($parameters['file']);
+				$filelastmod = filemtime($parameters['file']);
+				// On success save info into db
+				// id (rowid...)
+				// original filename (remove DOL_DATA_ROOT)
+				// mimetype
+				// original_created_at
+				// deleted_at
+				// deleted_by (he's fired)
+				// element
+				// fk_element
+				// filename in trashcan A/B/C/D/uuid.trash so we can delete several time the same file
+				$now = dol_now();
 				$sql = 'INSERT INTO ' . MAIN_DB_PREFIX . 'dolitrashcan (';
 				$sql .= 'original_filename';
 				$sql .= ', original_created_at';
@@ -138,6 +136,9 @@ class ActionsDoliTrashCan
 				$sql .= ')';
 
 				$this->db->query($sql);
+				$langs->loadLangs(["other", "dolitrashcan@dolitrashcan"]);
+				// replace translation 'on the fly' to change next message only
+				$langs->tab_translate['FileWasRemoved'] = $langs->tab_translate['DoliTrashCanFileWasMovedTo'];
 			}
 		}
 		if (!$error) {
