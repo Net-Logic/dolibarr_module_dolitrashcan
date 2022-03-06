@@ -29,6 +29,7 @@ include 'config.php';
 
 require_once DOL_DOCUMENT_ROOT . '/core/class/html.formfile.class.php';
 require_once DOL_DOCUMENT_ROOT . '/core/lib/files.lib.php';
+require_once DOL_DOCUMENT_ROOT . "/core/lib/functions2.lib.php";
 
 // Load translation files required by the page
 $langs->loadLangs(["dolitrashcan@dolitrashcan"]);
@@ -147,10 +148,7 @@ if (!empty($user->rights->dolitrashcan->read)) {
 		print dol_print_date($obj->deleted_at, 'dayhour');
 		print '</td>';
 		print '<td class="right">';
-		$tmpobject = fetchObjectByElement($obj->fk_element, $obj->element);
-		if (is_object($tmpobject)) {
-			print $tmpobject->getNomUrl(1);
-		}
+		print dolGetElementUrl($obj->fk_element, $obj->element, 1);
 		print '</td>';
 		print '<td class="right">';
 		// fontawesome_envelope-open-text_fas_red_1em

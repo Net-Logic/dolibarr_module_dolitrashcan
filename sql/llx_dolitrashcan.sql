@@ -25,5 +25,6 @@ CREATE TABLE llx_dolitrashcan
     deleted_by integer,
     element VARCHAR(128) NULL,
     fk_element integer NULL,
-    trashcan_filename VARCHAR(255)
+    trashcan_filename VARCHAR(255),
+    fk_parent integer NULL
 ) ENGINE=innodb;

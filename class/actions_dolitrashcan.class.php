@@ -114,6 +114,7 @@ class ActionsDoliTrashCan
 				// element
 				// fk_element
 				// filename in trashcan A/B/C/D/uuid.trash so we can delete several time the same file
+				$fk_parent = $lastTrashcanId ?? null;
 				$now = dol_now();
 				$sql = 'INSERT INTO ' . MAIN_DB_PREFIX . 'dolitrashcan (';
 				$sql .= 'original_filename';
@@ -124,6 +125,7 @@ class ActionsDoliTrashCan
 				$sql .= ', element';
 				$sql .= ', fk_element';
 				$sql .= ', trashcan_filename';
+				$sql .= ', fk_parent';
 				$sql .= ') VALUES (';
 				$sql .= '"' . $this->db->escape(str_replace(DOL_DATA_ROOT, '', $parameters['file'])) . '"';
 				$sql .= ' , ' . ($filelastmod ? '"' . $this->db->idate($filelastmod) . '"' : "null");
@@ -133,6 +135,7 @@ class ActionsDoliTrashCan
 				$sql .= ' , ' . (is_object($object) ? ('"' . $this->db->escape($object->element) . '"') : "null");
 				$sql .= ' , ' . (is_object($object) ? (int) $object->id : "null");
 				$sql .= ' , "' . $this->db->escape($movetofilename) . '"';
+				$sql .= ' , ' . (!empty($fk_parent) ? (int) $fk_parent : "null");
 				$sql .= ')';
 				$this->db->query($sql);
 				// save last rowid to identify files deleted with the same action to group them
