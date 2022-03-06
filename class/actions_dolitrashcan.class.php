@@ -76,7 +76,7 @@ class ActionsDoliTrashCan
 	 */
 	public function deleteFile($parameters, &$object, &$action, $hookmanager)
 	{
-		global $user, $langs;
+		global $conf, $user, $langs, $lastTrashcanId;
 
 		// Error counter
 		$error = 0;
@@ -88,7 +88,7 @@ class ActionsDoliTrashCan
 		// 	'nophperrors' => $nophperrors
 		// ];
 
-		if (in_array($parameters['currentcontext'], ['fileslib'])) {
+		if (in_array($parameters['currentcontext'], ['fileslib']) && file_exists($parameters['file'])) {
 			// TODO paranoiac check if already exist
 			$movetodir = self::getRandomDir(4);
 			$movetofilename = $movetodir . self::getUuid() . '.trash';
@@ -128,17 +128,40 @@ class ActionsDoliTrashCan
 				$sql .= '"' . $this->db->escape(str_replace(DOL_DATA_ROOT, '', $parameters['file'])) . '"';
 				$sql .= ' , ' . ($filelastmod ? '"' . $this->db->idate($filelastmod) . '"' : "null");
 				$sql .= ' , "' . $this->db->escape($mimetype) . '"';
-				$sql .= ' , "' . $this->db->idate($now) . '"';
+				$sql .= ' , "' . $this->db->idate($now, 'gmt') . '"';
 				$sql .= ' , ' . (is_object($user) ? (int) $user->id : "null");
 				$sql .= ' , ' . (is_object($object) ? ('"' . $this->db->escape($object->element) . '"') : "null");
 				$sql .= ' , ' . (is_object($object) ? (int) $object->id : "null");
 				$sql .= ' , "' . $this->db->escape($movetofilename) . '"';
 				$sql .= ')';
-
 				$this->db->query($sql);
+				// save last rowid to identify files deleted with the same action to group them
+				if (empty($lastTrashcanId)) {
+					$lastTrashcanId = $this->db->last_insert_id(MAIN_DB_PREFIX . 'dolitrashcan');
+				}
+				// setEventMessage('tid : '.$lastTrashcanId);
 				$langs->loadLangs(["other", "dolitrashcan@dolitrashcan"]);
 				// replace translation 'on the fly' to change next message only
 				$langs->tab_translate['FileWasRemoved'] = $langs->tab_translate['DoliTrashCanFileWasMovedTo'];
+				// check for olds files
+				$secondsbeforedelete = 86400 * ((int) ($conf->global->DOLITRASHCAN_DAYS_BEFORE_DELETE ?? 365));
+				$sql = "SELECT rowid";
+				$sql .= ', original_filename';
+				$sql .= ', original_created_at';
+				$sql .= ', mimetype';
+				$sql .= ', deleted_at';
+				$sql .= ', deleted_by';
+				$sql .= ', element';
+				$sql .= ', fk_element';
+				$sql .= ', trashcan_filename';
+				$sql .= ' FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
+				$sql .= ' WHERE deleted_at <' . (string) ($now - $secondsbeforedelete);
+
+				$resql = $this->db->query($sql);
+				while ($resql && ($obj = $this->db->fetch_object($resql))) {
+					// destroy old files
+					setEventMessage($obj->original_filename);
+				}
 			}
 		}
 		if (!$error) {

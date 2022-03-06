@@ -125,7 +125,8 @@ if (!empty($user->rights->dolitrashcan->read)) {
 	print '<th>' . $langs->trans("DoliTrashCanDeletedFiles") . '</th>';
 	print '<th>' . $langs->trans("DoliTrashCanMimetype") . '</th>';
 	print '<th>' . $langs->trans("DoliTrashCanDeletedBy") . '</th>';
-	print '<th>' . $langs->trans("DoliTrashCanContext") . '</th>';
+	print '<th class="right">' . $langs->trans("DoliTrashCanDeletedAt") . '</th>';
+	print '<th class="right">' . $langs->trans("DoliTrashCanContext") . '</th>';
 	print '<th></th>';
 	print '</tr>';
 	while ($resql && $obj = $db->fetch_object($resql)) {
@@ -142,16 +143,19 @@ if (!empty($user->rights->dolitrashcan->read)) {
 			print $tmpuser->getNomUrl(1);
 		}
 		print '</td>';
-		print '<td>';
+		print '<td class="right">';
+		print dol_print_date($obj->deleted_at, 'dayhour');
+		print '</td>';
+		print '<td class="right">';
 		$tmpobject = fetchObjectByElement($obj->fk_element, $obj->element);
 		if (is_object($tmpobject)) {
 			print $tmpobject->getNomUrl(1);
 		}
 		print '</td>';
-		print '<td>';
+		print '<td class="right">';
 		// fontawesome_envelope-open-text_fas_red_1em
 		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=restorefile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanRestoreFile'), 'fontawesome_recycle_fa_green_1em') . '</a>';
-		print '&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?action=destroyfile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanDestroy'), 'fontawesome_trash_fa_red_1em') . '</a>';
+		print '&nbsp;&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?action=destroyfile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanDestroy'), 'fontawesome_trash_fa_red_1em') . '</a>';
 		print '</td>';
 		print '</tr>';
 	}
