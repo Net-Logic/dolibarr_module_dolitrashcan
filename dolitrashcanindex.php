@@ -152,8 +152,8 @@ if (!empty($user->rights->dolitrashcan->read)) {
 		print '</td>';
 		print '<td class="right">';
 		// fontawesome_envelope-open-text_fas_red_1em
-		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=restorefile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanRestoreFile'), 'fontawesome_recycle_fa_green_1em') . '</a>';
-		print '&nbsp;&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?action=destroyfile&id=' . $obj->rowid . '">' . img_picto($langs->trans('DoliTrashCanDestroy'), 'fontawesome_trash_fa_red_1em') . '</a>';
+		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=restorefile&id=' . $obj->rowid . '"><span class="fa fa-recycle" style="font-size: 1em; color: green;" title="' . $langs->trans('DoliTrashCanRestoreFile') . '"></span></a>';
+		print '&nbsp;&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?action=destroyfile&id=' . $obj->rowid . '"><span class="fa fa-fire" style="font-size: 1em; color: red;" title="' . $langs->trans('DoliTrashCanDestroy') . '"></span></a>';
 		print '</td>';
 		print '</tr>';
 	}
