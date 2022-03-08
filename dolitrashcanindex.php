@@ -151,8 +151,8 @@ if (!empty($user->rights->dolitrashcan->read)) {
 		print dolGetElementUrl($obj->fk_element, $obj->element, 1);
 		print '</td>';
 		print '<td class="right">';
-		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=restorefile&id=' . $obj->rowid . '"><span class="fa fa-recycle" style="font-size: 1em; color: green;" title="'. $langs->trans('DoliTrashCanRestoreFile') . '"></span></a>';
-		print '&nbsp;&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?action=destroyfile&id=' . $obj->rowid . '"><span class="fa fa-trash" style="font-size: 1em; color: red;" title="'.$langs->trans('DoliTrashCanDestroy').'"></span></a>';
+		print '<a href="' . $_SERVER['PHP_SELF'] . '?action=restorefile&id=' . $obj->rowid . '"><span class="fa fa-recycle" style="font-size: 1em; color: green;" title="' . $langs->trans('DoliTrashCanRestoreFile') . '"></span></a>';
+		print '&nbsp;&nbsp;<a href="' . $_SERVER['PHP_SELF'] . '?action=destroyfile&id=' . $obj->rowid . '"><span class="fa fa-fire" style="font-size: 1em; color: red;" title="' . $langs->trans('DoliTrashCanDestroy') . '"></span></a>';
 		print '</td>';
 		print '</tr>';
 	}
