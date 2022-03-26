@@ -6,3 +6,6 @@ on:
 jobs:
 	build:
 		runs-on: ubuntu-latest
+steps:
+	 - name: Download project from git
+     uses: actions/checkout@v2
