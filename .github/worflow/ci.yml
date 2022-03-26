@@ -1,11 +1,11 @@
 name: Package builder
 
 on:
-  push:
-    branches: [main]
+	push:
+		branches: [main]
 jobs:
 	build:
 		runs-on: ubuntu-latest
 steps:
-	 - name: Download project from git
-     uses: actions/checkout@v2
+	- name: Download project from git
+	uses: actions/checkout@v2
