@@ -2,7 +2,7 @@
 
 ## Features
 
-Description of the module...
+Move deleted files in a trashcan
 
 <!--
 ![Screenshot dolitrashcan](img/screenshot_dolitrashcan.png?raw=true "DoliTrashCan"){imgmd}
