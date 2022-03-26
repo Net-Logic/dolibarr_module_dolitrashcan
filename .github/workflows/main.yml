@@ -37,4 +37,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_OWNER: Net-Logic
           RELEASE_BRANCH: main
-          CUSTOM_TAG: dolitrashcan-
+          CUSTOM_TAG: dolitrashcan-1.0.0
