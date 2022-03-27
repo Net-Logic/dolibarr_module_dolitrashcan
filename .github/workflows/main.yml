@@ -39,3 +39,4 @@ jobs:
           RELEASE_BRANCH: main
           MODULE: dolitrashcan
           RELEASE_BRANCHES: main
+          INITIAL_VERSION: dolitrashcan-0.0.0
