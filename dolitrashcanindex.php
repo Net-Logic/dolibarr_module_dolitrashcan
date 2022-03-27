@@ -84,7 +84,7 @@ if (($action == 'restorefile' || $action == 'destroyfile') && $id > 0) {
 		$sql = 'DELETE FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
 		$sql .= ' WHERE rowid=' . (int) $id;
 		$resql = $db->query($sql);
-		setEventMessage($langs->trans($mesg, $file->original_filename, $tmpuser->getFullName($langs)));
+		setEventMessage($langs->trans($mesg, $file->original_filename));
 	} elseif ($resql && ($db->num_rows($resql) == 0)) {
 		setEventMessage($langs->trans('DoliTrashCanSomethingNotFound'));
 	} elseif (!$resql) {
