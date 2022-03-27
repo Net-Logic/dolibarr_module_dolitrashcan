@@ -38,3 +38,4 @@ jobs:
           REPO_OWNER: Net-Logic
           RELEASE_BRANCH: main
           MODULE: dolitrashcan
+          RELEASE_BRANCHES: main
