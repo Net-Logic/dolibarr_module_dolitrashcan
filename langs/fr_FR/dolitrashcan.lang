@@ -42,7 +42,7 @@ DoliTrashCanArea=Corbeille
 
 DoliTrashCan=Corbeille
 DolitrashcanErrorMovingFileToTrashcan=Erreur lors du déplacement du fichier dans la corbeille.
-DoliTrashCanFileRestored=Le fichier %s a été restauré, l'utilisateur %s ne sera pas viré.
+DoliTrashCanFileRestored=Le fichier %s a été restauré.
 DoliTrashCanFileDestroyed=Le fichier %s a été détruit
 DoliTrashCanRestoreFile=Récupérer le fichier depuis la corbeille
 DoliTrashCanDeletedFiles=Fichiers supprimés
