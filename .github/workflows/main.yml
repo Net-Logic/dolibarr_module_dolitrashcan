@@ -38,5 +38,6 @@ jobs:
           REPO_OWNER: Net-Logic
           RELEASE_BRANCH: main
           MODULE: dolitrashcan
+          CLASSNAME: DoliTrashCan
           RELEASE_BRANCHES: main
           INITIAL_VERSION: dolitrashcan-0.1.0
