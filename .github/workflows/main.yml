@@ -34,7 +34,7 @@ jobs:
           MODULE: dolitrashcan
           CLASSNAME: DoliTrashCan
           RELEASE_BRANCHES: main
-          DEFAULT_BUMP: patch
+          DEFAULT_BUMP: none
           INITIAL_VERSION: dolitrashcan-0.1.0
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
