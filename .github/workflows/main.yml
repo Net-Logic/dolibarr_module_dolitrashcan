@@ -35,7 +35,9 @@ jobs:
           CLASSNAME: DoliTrashCan
           RELEASE_BRANCHES: main
           INITIAL_VERSION: dolitrashcan-0.1.0
-
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Bump version #none
       - name: Zip Folder
         run: rsync -arv --exclude='.git/' --exclude='.github/' --exclude='.gitignore' . ./release
 
