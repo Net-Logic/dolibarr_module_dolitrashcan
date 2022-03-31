@@ -59,7 +59,7 @@ class modDoliTrashCan extends DolibarrModules
 		$this->module_position = '90';
 
 		// Gives the possibility for the module, to provide his own family info and position of this family (Overwrite $this->family and $this->module_position. Avoid this)
-		//$this->familyinfo = ['myownfamily' => ['position' => '01', 'label' => $langs->trans("MyOwnFamily")));
+		// $this->familyinfo = ['myownfamily' => ['position' => '01', 'label' => $langs->trans("MyOwnFamily")));
 		// Module label (no space allowed), used if translation string 'ModuleDoliTrashCanName' not found (DoliTrashCan is name of module).
 		$this->name = preg_replace('/^mod/i', '', get_class($this));
 
