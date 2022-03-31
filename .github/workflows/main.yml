@@ -25,10 +25,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Switch to Release Folder
-        run: |
-          cd release
-          ls -la
       - name: Bump version and push tag
         uses: Net-Logic/github-dolibarr-action@main
         env:
@@ -39,5 +35,11 @@ jobs:
           CLASSNAME: DoliTrashCan
           RELEASE_BRANCHES: main
           INITIAL_VERSION: dolitrashcan-0.1.0
+
       - name: Zip Folder
         run: rsync -arv --exclude='.git/' --exclude='.github/' --exclude='.gitignore' . ./release
+
+      - name: Switch to Release Folder
+        run: |
+          cd release
+          ls -la
