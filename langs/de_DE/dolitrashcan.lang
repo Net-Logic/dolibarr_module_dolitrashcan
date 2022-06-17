@@ -1,0 +1,31 @@
+/*
+ * Language code: de_DE
+ * Generation date 2022-06-17 11:26:48
+ */
+
+
+// START - Lines generated via autotranslator.php tool (2022-06-17 11:26:48).
+// Reference language: fr_FR -> de_DE
+ModuleDoliTrashCanName=DoliTrashCan
+ModuleDoliTrashCanDesc=Der dolibarr-Papierkorb, um den Verlust Ihrer gelöschten Dateien zu stoppen
+DoliTrashCanSetup=Der Korb von Dolibarr
+DoliTrashCanSettings=Papierkorbeinstellungen
+DoliTrashCanSetupPage=DoliTrashCan-Setup-Seite
+DOLITRASHCAN_DAYS_BEFORE_DELETE=Tage vor der endgültigen Löschung
+DOLITRASHCAN_DAYS_BEFORE_DELETETooltip=Dateien, die sich für diese Anzahl von Tagen im Papierkorb befinden, werden dauerhaft gelöscht.
+About=Um
+DoliTrashCanAbout=Über DoliTrashCan
+DoliTrashCanAboutPage=Müllbereich
+DoliTrashCanArea=Korb
+DoliTrashCan=Korb
+DolitrashcanErrorMovingFileToTrashcan=Fehler beim Verschieben der Datei in den Papierkorb.
+DoliTrashCanFileRestored=Die %s-Datei wurde wiederhergestellt.
+DoliTrashCanFileDestroyed=Die %s-Datei wurde zerstört
+DoliTrashCanRestoreFile=Datei aus dem Papierkorb wiederherstellen
+DoliTrashCanDeletedFiles=Gelöschte Dateien
+DoliTrashCanMimetype=Mime Typ
+DoliTrashCanDeletedBy=Gelöscht von
+DoliTrashCanDeletedAt=Lösche es
+DoliTrashCanContext=Kontext
+DoliTrashCanFileWasMovedTo=Die %s-Datei wurde in den Papierkorb verschoben.
+DoliTrashCanDestroy=Unbedingt löschen

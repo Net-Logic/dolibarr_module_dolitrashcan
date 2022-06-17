@@ -42,3 +42,22 @@ DoliTrashCanAbout = About DoliTrashCan
 DoliTrashCanAboutPage = DoliTrashCan about page
 
 DolitrashcanErrorMovingFileToTrashcan=Error when moving file into trashcan.
+
+
+// START - Lines generated via autotranslator.php tool (2022-06-17 11:20:40).
+// Reference language: fr_FR -> en_US
+DoliTrashCanSettings=Trash settings
+DOLITRASHCAN_DAYS_BEFORE_DELETE=Days before permanent deletion
+DOLITRASHCAN_DAYS_BEFORE_DELETETooltip=Files present in the recycle bin for this number of days will be permanently deleted.
+DoliTrashCanArea=Basket
+DoliTrashCan=Basket
+DoliTrashCanFileRestored=The %s file has been restored.
+DoliTrashCanFileDestroyed=The %s file has been destroyed
+DoliTrashCanRestoreFile=Recover File from Recycle Bin
+DoliTrashCanDeletedFiles=Deleted files
+DoliTrashCanMimetype=mimetype
+DoliTrashCanDeletedBy=Deleted by
+DoliTrashCanDeletedAt=Delete it
+DoliTrashCanContext=context
+DoliTrashCanFileWasMovedTo=The %s file has been moved to the trash.
+DoliTrashCanDestroy=Delete definitely
