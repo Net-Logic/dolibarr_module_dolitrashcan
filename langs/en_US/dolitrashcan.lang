@@ -61,3 +61,6 @@ DoliTrashCanDeletedAt=Delete it
 DoliTrashCanContext=context
 DoliTrashCanFileWasMovedTo=The %s file has been moved to the trash.
 DoliTrashCanDestroy=Delete definitely
+
+// Reference language: fr_FR -> en_US
+DoliTrashCanReallyDestroy=Are you sure you want to delete the file?
