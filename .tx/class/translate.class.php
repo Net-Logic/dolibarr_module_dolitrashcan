@@ -36,7 +36,7 @@ class Translate
 	public $charset_output = 'UTF-8'; // Codage used by "trans" method outputs
 
 	public $tab_translate = array(); // Array of all translations key=>value
-	private $_tab_loaded = array(); // Array to store result after loading each language file
+	private $tab_loaded = array(); // Array to store result after loading each language file
 
 	public $cache_labels = array(); // Cache for labels return by getLabelFromKey method
 	public $cache_currencies = array(); // Cache to store currency symbols
@@ -200,8 +200,8 @@ class Translate
 
 		// Check cache
 		if (
-			!empty($this->_tab_loaded[$newdomain])
-			&& ($this->_tab_loaded[$newdomain] != 2 || empty($forceloadifalreadynotfound))
+			!empty($this->tab_loaded[$newdomain])
+			&& ($this->tab_loaded[$newdomain] != 2 || empty($forceloadifalreadynotfound))
 		) { // File already loaded and found and not forced for this domain
 			return 0;
 		}
@@ -232,7 +232,7 @@ class Translate
 			$filelangexists = is_file($file_lang_osencoded);
 
 			//dol_syslog(get_class($this).'::Load Try to read for alt='.$alt.' langofdir='.$langofdir.' domain='.$domain.' newdomain='.$newdomain.' modulename='.$modulename.' file_lang='.$file_lang." => filelangexists=".$filelangexists);
-			//print 'Try to read for alt='.$alt.' langofdir='.$langofdir.' domain='.$domain.' newdomain='.$newdomain.' modulename='.$modulename.' this->_tab_loaded[newdomain]='.$this->_tab_loaded[$newdomain].' file_lang='.$file_lang." => filelangexists=".$filelangexists."\n";
+			//print 'Try to read for alt='.$alt.' langofdir='.$langofdir.' domain='.$domain.' newdomain='.$newdomain.' modulename='.$modulename.' this->tab_loaded[newdomain]='.$this->tab_loaded[$newdomain].' file_lang='.$file_lang." => filelangexists=".$filelangexists."\n";
 
 			if ($filelangexists) {
 				// TODO Move cache read out of loop on dirs or at least filelangexists
@@ -299,11 +299,11 @@ class Translate
 		// We are in the pass of the reference file. No more files to scan to complete.
 		if ($alt == 2) {
 			if ($fileread) {
-				$this->_tab_loaded[$newdomain] = 1; // Set domain file as found so loaded
+				$this->tab_loaded[$newdomain] = 1; // Set domain file as found so loaded
 			}
 
-			if (empty($this->_tab_loaded[$newdomain])) {
-				$this->_tab_loaded[$newdomain] = 2; // Set this file as not found
+			if (empty($this->tab_loaded[$newdomain])) {
+				$this->tab_loaded[$newdomain] = 2; // Set this file as not found
 			}
 		}
 
@@ -362,12 +362,12 @@ class Translate
 		$newdomain = $domain;
 
 		// Check cache
-		if (!empty($this->_tab_loaded[$newdomain])) {	// File already loaded for this domain 'database'
+		if (!empty($this->tab_loaded[$newdomain])) {	// File already loaded for this domain 'database'
 			//dol_syslog("Translate::Load already loaded for newdomain=".$newdomain);
 			return 0;
 		}
 
-		$this->_tab_loaded[$newdomain] = 1; // We want to be sure this function is called once only for domain 'database'
+		$this->tab_loaded[$newdomain] = 1; // We want to be sure this function is called once only for domain 'database'
 
 		$fileread = 0;
 		$langofdir = $this->defaultlang;
@@ -457,11 +457,11 @@ class Translate
 		}
 
 		if ($fileread) {
-			$this->_tab_loaded[$newdomain] = 1; // Set domain file as loaded
+			$this->tab_loaded[$newdomain] = 1; // Set domain file as loaded
 		}
 
-		if (empty($this->_tab_loaded[$newdomain])) {
-			$this->_tab_loaded[$newdomain] = 2; // Mark this case as not found (no lines found for language)
+		if (empty($this->tab_loaded[$newdomain])) {
+			$this->tab_loaded[$newdomain] = 2; // Mark this case as not found (no lines found for language)
 		}
 
 		return 1;
@@ -475,7 +475,7 @@ class Translate
 	 */
 	public function isLoaded($domain)
 	{
-		return $this->_tab_loaded[$domain];
+		return $this->tab_loaded[$domain];
 	}
 
 	/**
@@ -715,7 +715,7 @@ class Translate
 	 *  @param	int		$mainlangonly   1=Show only main languages ('fr_FR' no' fr_BE', 'es_ES' not 'es_MX', ...)
 	 *  @return array     				List of languages
 	 */
-	public function get_available_languages($langdir = DOL_DOCUMENT_ROOT, $maxlength = 0, $usecode = 0, $mainlangonly = 0)
+	public function getAvailableLanguages($langdir = DOL_DOCUMENT_ROOT, $maxlength = 0, $usecode = 0, $mainlangonly = 0)
 	{
 		// phpcs:enable
 		global $conf;
@@ -795,7 +795,7 @@ class Translate
 	 *  @param  integer	$searchalt      Search also alernate language file
 	 *  @return boolean         		true if exists and readable
 	 */
-	public function file_exists($filename, $searchalt = 0)
+	public function fileExists($filename, $searchalt = 0)
 	{
 		// phpcs:enable
 		// Test si fichier dans repertoire de la langue
@@ -1030,25 +1030,5 @@ class Translate
 			dol_print_error($db);
 			return -1;
 		}
-	}
-
-	// phpcs:disable PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps
-	/**
-	 * Return an array with content of all loaded translation keys (found into this->tab_translate) so
-	 * we get a substitution array we can use for substitutions (for mail or ODT generation for example)
-	 *
-	 * @return array	Array of translation keys lang_key => string_translation_loaded
-	 */
-	public function get_translations_for_substitutions()
-	{
-		// phpcs:enable
-		$substitutionarray = array();
-
-		foreach ($this->tab_translate as $code => $label) {
-			$substitutionarray['lang_' . $code] = $label;
-			$substitutionarray['__(' . $code . ')__'] = $label;
-		}
-
-		return $substitutionarray;
 	}
 }
