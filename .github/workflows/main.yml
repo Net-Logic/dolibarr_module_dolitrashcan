@@ -35,7 +35,7 @@ jobs:
         run: echo ${{ steps.setup-php.outputs.php-version }}
 
       - name: Run PHPCS
-        run: phpcs -q --report=checkstyle --standard=codesniffer/ruleset.xml --extensions=php --ignore=vendor/ --ignore=./.tx/ . | cs2pr
+        run: phpcs -q --report=checkstyle --standard=codesniffer/ruleset.xml --extensions=php --ignore=vendor/ --ignore=.tx/ . | cs2pr
       - name: Run Paralell Lint
         run: parallel-lint --exclude vendor/ .
       - name: Run VarDump Check
