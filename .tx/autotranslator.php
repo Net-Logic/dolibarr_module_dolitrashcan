@@ -86,7 +86,7 @@ if ($argv[2] != 'all') {
 
 require_once "./.tx/class/autotranslator.class.php";
 
-$langParser = new autoTranslator($argv[2], $argv[1], $dir, $file, $argv[3]);
+$langParser = new AutoTranslator($argv[2], $argv[1], $dir, $file, $argv[3]);
 
 print "***** Finished *****\n";
 

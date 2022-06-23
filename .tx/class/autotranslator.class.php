@@ -25,7 +25,7 @@
  * Class to parse language files and translate them
  * This is a language automatic translator parser for Dolibarr
  */
-class autoTranslator
+class AutoTranslator
 {
 	private $_translatedFiles = array();
 	private $_destlang = '';
