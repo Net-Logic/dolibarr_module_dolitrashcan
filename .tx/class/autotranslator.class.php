@@ -350,8 +350,8 @@ class AutoTranslator
 		// now, process the JSON string
 		$json = json_decode($body, true);
 
-		if ((
-			!empty($json['responseStatus']) && $json['responseStatus'] != 200)
+		if (
+			(!empty($json['responseStatus']) && $json['responseStatus'] != 200)
 			|| count($json['data']['translations']) == 0
 		) {
 			print "Error: " . $json['responseStatus'] . " " . $url . "\n";

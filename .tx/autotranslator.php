@@ -36,11 +36,9 @@ if (substr($sapi_type, 0, 3) == 'cgi') {
 	exit;
 }
 
-// Include Dolibarr environment
-require_once $path . '../../master.inc.php';
-require_once $path . '../../core/lib/files.lib.php';
-// After this $db is an opened handler to database. We close it at end of file.
-
+require_once "./.tx/class/translate.class.php";
+$langs = new Translate($path);
+$langs->setDefaultLang('fr_FR');
 // Load main language strings
 $langs->load("main");
 
@@ -78,7 +76,7 @@ if ($argv[2] != 'all') {
 		print 'Create directory ' . $dir . '/' . $argv[2] . "\n";
 		$result = mkdir($dir . '/' . $argv[2]);
 		if (!$result) {
-			$db->close();
+			// $db->close();
 			return -1;
 		}
 	}
@@ -92,6 +90,6 @@ print "***** Finished *****\n";
 
 // -------------------- END OF YOUR CODE --------------------
 
-$db->close();
+// $db->close();
 
 return $error;
