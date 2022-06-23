@@ -35,11 +35,17 @@ jobs:
         run: echo ${{ steps.setup-php.outputs.php-version }}
 
       - name: Run PHPCS
-        run: phpcs -q --report=checkstyle --standard=codesniffer/ruleset.xml --extensions=php  --ignore=vendor/ . | cs2pr
+        run: phpcs -q --report=checkstyle --standard=codesniffer/ruleset.xml --extensions=php --ignore=vendor/ --ignore=.tx/ . | cs2pr
       - name: Run Paralell Lint
         run: parallel-lint --exclude vendor/ .
       - name: Run VarDump Check
         run: var-dump-check --extensions php --tracy --exclude vendor/ .
+      - name: Run autotranslator
+        run: |
+          php ./.tx/autotranslator.php fr_FR it_IT ${{ secrets.GOOGLE_API_TRANSLATE }}
+          php ./.tx/autotranslator.php fr_FR en_US ${{ secrets.GOOGLE_API_TRANSLATE }}
+          php ./.tx/autotranslator.php fr_FR es_ES ${{ secrets.GOOGLE_API_TRANSLATE }}
+          php ./.tx/autotranslator.php fr_FR de_DE ${{ secrets.GOOGLE_API_TRANSLATE }}
       - name: Bump version and push tag
         uses: Net-Logic/github-dolibarr-action@main
         env:
