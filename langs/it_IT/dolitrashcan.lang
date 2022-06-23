@@ -29,3 +29,6 @@ DoliTrashCanDeletedAt=Cancellalo
 DoliTrashCanContext=contesto
 DoliTrashCanFileWasMovedTo=Il file %s è stato spostato nel cestino.
 DoliTrashCanDestroy=Elimina definitivamente
+
+// Reference language: fr_FR -> it_IT
+DoliTrashCanReallyDestroy=Sei sicuro di voler eliminare il file?
