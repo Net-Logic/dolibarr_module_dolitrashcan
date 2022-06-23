@@ -173,10 +173,10 @@ class AutoTranslator
 
 		if (isset($this->translatedFiles[$file]) && count($this->translatedFiles[$file]) > 0) {
 			$fp = fopen($destPath, 'a');
-			fwrite($fp, "\n");
+			// fwrite($fp, "\n");
 			// fwrite($fp, "\n");
 			// fwrite($fp, "// START - Lines generated via autotranslator.php tool (" . $this->time . ").\n");
-			fwrite($fp, "// Reference language: " . $this->refLang . " -> " . $my_destlang . "\n");
+			// fwrite($fp, "// Reference language: " . $this->refLang . " -> " . $my_destlang . "\n");
 			foreach ($this->translatedFiles[$file] as $line) {
 				fwrite($fp, $line . "\n");
 			}
