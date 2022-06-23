@@ -28,7 +28,9 @@ jobs:
         id: setup-php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '7.4'
+          tools: php-cs-fixer, phpunit
+        run: phpcs -v
 
       - name: Print PHP version
         run: echo ${{ steps.setup-php.outputs.php-version }}
