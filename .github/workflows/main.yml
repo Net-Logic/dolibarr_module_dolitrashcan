@@ -40,6 +40,8 @@ jobs:
         run: parallel-lint --exclude vendor/ .
       - name: Run VarDump Check
         run: var-dump-check --extensions php --tracy --exclude vendor/ .
+      - name: Run autotranslator
+        run: php ./.tx/autotranslator.php fr_FR it_IT ${{ secrets.GOOGLE_API_TRANSLATE }}
       - name: Bump version and push tag
         uses: Net-Logic/github-dolibarr-action@main
         env:
