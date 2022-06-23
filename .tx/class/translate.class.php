@@ -80,31 +80,31 @@ class Translate
 		//print "Short code before _ : ".$langpart[0].' / Short code after _ : '.$langpart[1].'<br>';
 		if (!empty($langpart[1])) {	// If it's for a codetouse that is a long code xx_YY
 			// Array force long code from first part, even if long code is defined
-			$longforshort = array('ar'=>'ar_SA');
+			$longforshort = array('ar' => 'ar_SA');
 			$longforshortexcep = array('ar_EG');
 			if (isset($longforshort[strtolower($langpart[0])]) && !in_array($codetouse, $longforshortexcep)) {
 				$srclang = $longforshort[strtolower($langpart[0])];
 			} elseif (!is_numeric($langpart[1])) {		// Second part YY may be a numeric with some Chrome browser
-				$srclang = strtolower($langpart[0])."_".strtoupper($langpart[1]);
-				$longforlong = array('no_nb'=>'nb_NO');
+				$srclang = strtolower($langpart[0]) . "_" . strtoupper($langpart[1]);
+				$longforlong = array('no_nb' => 'nb_NO');
 				if (isset($longforlong[strtolower($srclang)])) {
 					$srclang = $longforlong[strtolower($srclang)];
 				}
 			} else {
-				$srclang = strtolower($langpart[0])."_".strtoupper($langpart[0]);
+				$srclang = strtolower($langpart[0]) . "_" . strtoupper($langpart[0]);
 			}
 		} else {						// If it's for a codetouse that is a short code xx
 			// Array to convert short lang code into long code.
 			$longforshort = array(
-				'am'=>'am_ET', 'ar'=>'ar_SA', 'bn'=>'bn_DB', 'el'=>'el_GR', 'ca'=>'ca_ES', 'cs'=>'cs_CZ', 'en'=>'en_US', 'fa'=>'fa_IR',
-				'gl'=>'gl_ES', 'he'=>'he_IL', 'hi'=>'hi_IN', 'ja'=>'ja_JP',
-				'ka'=>'ka_GE', 'km'=>'km_KH', 'kn'=>'kn_IN', 'ko'=>'ko_KR', 'lo'=>'lo_LA', 'nb'=>'nb_NO', 'no'=>'nb_NO', 'ne'=>'ne_NP',
-				'sl'=>'sl_SI', 'sq'=>'sq_AL', 'sr'=>'sr_RS', 'sv'=>'sv_SE', 'uk'=>'uk_UA', 'vi'=>'vi_VN', 'zh'=>'zh_CN'
+				'am' => 'am_ET', 'ar' => 'ar_SA', 'bn' => 'bn_DB', 'el' => 'el_GR', 'ca' => 'ca_ES', 'cs' => 'cs_CZ', 'en' => 'en_US', 'fa' => 'fa_IR',
+				'gl' => 'gl_ES', 'he' => 'he_IL', 'hi' => 'hi_IN', 'ja' => 'ja_JP',
+				'ka' => 'ka_GE', 'km' => 'km_KH', 'kn' => 'kn_IN', 'ko' => 'ko_KR', 'lo' => 'lo_LA', 'nb' => 'nb_NO', 'no' => 'nb_NO', 'ne' => 'ne_NP',
+				'sl' => 'sl_SI', 'sq' => 'sq_AL', 'sr' => 'sr_RS', 'sv' => 'sv_SE', 'uk' => 'uk_UA', 'vi' => 'vi_VN', 'zh' => 'zh_CN'
 			);
 			if (isset($longforshort[strtolower($langpart[0])])) {
 				$srclang = $longforshort[strtolower($langpart[0])];
 			} elseif (!empty($langpart[0])) {
-				$srclang = strtolower($langpart[0])."_".strtoupper($langpart[0]);
+				$srclang = strtolower($langpart[0]) . "_" . strtoupper($langpart[0]);
 			} else {
 				$srclang = 'en_US';
 			}
@@ -174,7 +174,7 @@ class Translate
 
 		// Check parameters
 		if (empty($domain)) {
-			print get_class($this)."::Load ErrorWrongParameters";
+			print get_class($this) . "::Load ErrorWrongParameters";
 			return -1;
 		}
 		if ($this->defaultlang === 'none_NONE') {
@@ -199,8 +199,10 @@ class Translate
 		}
 
 		// Check cache
-		if (!empty($this->_tab_loaded[$newdomain])
-			&& ($this->_tab_loaded[$newdomain] != 2 || empty($forceloadifalreadynotfound))) { // File already loaded and found and not forced for this domain
+		if (
+			!empty($this->_tab_loaded[$newdomain])
+			&& ($this->_tab_loaded[$newdomain] != 2 || empty($forceloadifalreadynotfound))
+		) { // File already loaded and found and not forced for this domain
 			return 0;
 		}
 
@@ -217,13 +219,13 @@ class Translate
 		}
 
 		if (empty($langofdir)) {	// This may occurs when load is called without setting the language and without providing a value for forcelangdir
-			print "Error: ".get_class($this)."::load was called for domain=".$domain." but language was not set yet with langs->setDefaultLang(). Nothing will be loaded.";
+			print "Error: " . get_class($this) . "::load was called for domain=" . $domain . " but language was not set yet with langs->setDefaultLang(). Nothing will be loaded.";
 			return -1;
 		}
 
 		foreach ($this->dir as $searchdir) {
 			// Directory of translation files
-			$file_lang = $searchdir.($modulename ? '/'.$modulename : '')."/langs/".$langofdir."/".$newdomain.".lang";
+			$file_lang = $searchdir . ($modulename ? '/' . $modulename : '') . "/langs/" . $langofdir . "/" . $newdomain . ".lang";
 			// $file_lang_osencoded = dol_osencode($file_lang);
 			$file_lang_osencoded = $file_lang;
 
@@ -276,7 +278,7 @@ class Translate
 		if ($alt == 0) {
 			// This function MUST NOT contains call to syslog
 			//dol_syslog("Translate::Load loading alternate translation file (to complete ".$this->defaultlang."/".$newdomain.".lang file)", LOG_DEBUG);
-			$langofdir = strtolower($langarray[0]).'_'.strtoupper($langarray[0]);
+			$langofdir = strtolower($langarray[0]) . '_' . strtoupper($langarray[0]);
 			if ($langofdir == 'el_EL') {
 				$langofdir = 'el_GR'; // main parent for el_CY is not 'el_EL' but 'el_GR'
 			}
@@ -308,7 +310,7 @@ class Translate
 		// This part is deprecated and replaced with table llx_overwrite_trans
 		// Kept for backward compatibility.
 		if (empty($loadfromfileonly)) {
-			$overwritekey = 'MAIN_OVERWRITE_TRANS_'.$this->defaultlang;
+			$overwritekey = 'MAIN_OVERWRITE_TRANS_' . $this->defaultlang;
 			if (!empty($conf->global->$overwritekey)) {    // Overwrite translation with key1:newstring1,key2:newstring2
 				// Overwrite translation with param MAIN_OVERWRITE_TRANS_xx_XX
 				$tmparray = explode(',', $conf->global->$overwritekey);
@@ -322,8 +324,10 @@ class Translate
 		}
 
 		// Check to be sure that SeparatorDecimal differs from SeparatorThousand
-		if (!empty($this->tab_translate["SeparatorDecimal"]) && !empty($this->tab_translate["SeparatorThousand"])
-		&& $this->tab_translate["SeparatorDecimal"] == $this->tab_translate["SeparatorThousand"]) {
+		if (
+			!empty($this->tab_translate["SeparatorDecimal"]) && !empty($this->tab_translate["SeparatorThousand"])
+			&& $this->tab_translate["SeparatorDecimal"] == $this->tab_translate["SeparatorThousand"]
+		) {
 			$this->tab_translate["SeparatorThousand"] = '';
 		}
 
@@ -369,7 +373,7 @@ class Translate
 		$langofdir = $this->defaultlang;
 
 		if (empty($langofdir)) {	// This may occurs when load is called without setting the language and without providing a value for forcelangdir
-			dol_syslog("Error: ".get_class($this)."::loadFromDatabase was called but language was not set yet with langs->setDefaultLang(). Nothing will be loaded.", LOG_WARNING);
+			dol_syslog("Error: " . get_class($this) . "::loadFromDatabase was called but language was not set yet with langs->setDefaultLang(). Nothing will be loaded.", LOG_WARNING);
 			return -1;
 		}
 
@@ -380,7 +384,7 @@ class Translate
 		$usecachekey = '';
 		// Using a memcached server
 		if (!empty($conf->memcached->enabled) && !empty($conf->global->MEMCACHED_SERVER)) {
-			$usecachekey = $newdomain.'_'.$langofdir; // Should not contains special chars
+			$usecachekey = $newdomain . '_' . $langofdir; // Should not contains special chars
 		} elseif (isset($conf->global->MAIN_OPTIMIZE_SPEED) && ($conf->global->MAIN_OPTIMIZE_SPEED & 0x02)) {
 			// Using cache with shmop. Speed gain: 40ms - Memory overusage: 200ko (Size of session cache file)
 			$usecachekey = $newdomain;
@@ -390,7 +394,7 @@ class Translate
 			//dol_syslog('Translate::Load we will cache result into usecachekey '.$usecachekey);
 			//global $aaa; $aaa+=1;
 			//print $aaa." ".$usecachekey."\n";
-			require_once DOL_DOCUMENT_ROOT.'/core/lib/memory.lib.php';
+			require_once DOL_DOCUMENT_ROOT . '/core/lib/memory.lib.php';
 			$tmparray = dol_getcache($usecachekey);
 			if (is_array($tmparray) && count($tmparray)) {
 				$this->tab_translate += $tmparray; // Faster than array_merge($tmparray,$this->tab_translate). Note: If a value already exists into tab_translate, value into tmparaay is not added.
@@ -403,8 +407,8 @@ class Translate
 
 		if (!$found && !empty($conf->global->MAIN_ENABLE_OVERWRITE_TRANSLATION)) {
 			// Overwrite translation with database read
-			$sql = "SELECT transkey, transvalue FROM ".MAIN_DB_PREFIX."overwrite_trans where lang='".$db->escape($this->defaultlang)."' OR lang IS NULL";
-			$sql .= " AND entity IN (0, ".getEntity('overwrite_trans').")";
+			$sql = "SELECT transkey, transvalue FROM " . MAIN_DB_PREFIX . "overwrite_trans where lang='" . $db->escape($this->defaultlang) . "' OR lang IS NULL";
+			$sql .= " AND entity IN (0, " . getEntity('overwrite_trans') . ")";
 			$sql .= $db->order("lang", "DESC");
 			$resql = $db->query($sql);
 
@@ -442,7 +446,7 @@ class Translate
 					if ($usecachekey && count($tabtranslatedomain)) {
 						$ressetcache = dol_setcache($usecachekey, $tabtranslatedomain);
 						if ($ressetcache < 0) {
-							$error = 'Failed to set cache for usecachekey='.$usecachekey.' result='.$ressetcache;
+							$error = 'Failed to set cache for usecachekey=' . $usecachekey . ' result=' . $ressetcache;
 							dol_syslog($error, LOG_ERR);
 						}
 					}
@@ -536,12 +540,12 @@ class Translate
 			$str = $this->tab_translate[$key];
 
 			// Make some string replacement after translation
-			$replacekey = 'MAIN_REPLACE_TRANS_'.$this->defaultlang;
+			$replacekey = 'MAIN_REPLACE_TRANS_' . $this->defaultlang;
 			if (!empty($conf->global->$replacekey)) {    // Replacement translation variable with string1:newstring1;string2:newstring2
 				$tmparray = explode(';', $conf->global->$replacekey);
 				foreach ($tmparray as $tmp) {
 					$tmparray2 = explode(':', $tmp);
-					$str = preg_replace('/'.preg_quote($tmparray2[0]).'/', $tmparray2[1], $str);
+					$str = preg_replace('/' . preg_quote($tmparray2[0]) . '/', $tmparray2[1], $str);
 				}
 			}
 
@@ -622,12 +626,12 @@ class Translate
 			$str = $this->tab_translate[$key];
 
 			// Make some string replacement after translation
-			$replacekey = 'MAIN_REPLACE_TRANS_'.$this->defaultlang;
+			$replacekey = 'MAIN_REPLACE_TRANS_' . $this->defaultlang;
 			if (!empty($conf->global->$replacekey)) {    // Replacement translation variable with string1:newstring1;string2:newstring2
 				$tmparray = explode(';', $conf->global->$replacekey);
 				foreach ($tmparray as $tmp) {
 					$tmparray2 = explode(':', $tmp);
-					$str = preg_replace('/'.preg_quote($tmparray2[0]).'/', $tmparray2[1], $str);
+					$str = preg_replace('/' . preg_quote($tmparray2[0]) . '/', $tmparray2[1], $str);
 				}
 			}
 
@@ -719,7 +723,7 @@ class Translate
 		$this->load("languages");
 
 		// We scan directory langs to detect available languages
-		$handle = opendir($langdir."/langs");
+		$handle = opendir($langdir . "/langs");
 		$langs_available = array();
 		while ($dir = trim(readdir($handle))) {
 			$regs = array();
@@ -727,34 +731,34 @@ class Translate
 				// We must keep only main languages
 				if ($mainlangonly) {
 					$arrayofspecialmainlanguages = array(
-						'en'=>'en_US',
-						'am'=>'am_ET',
-						'ar'=>'ar_SA',
-						'bn'=>'bn_DB',
-						'bs'=>'bs_BA',
-						'ca'=>'ca_ES',
-						'cs'=>'cs_CZ',
-						'da'=>'da_DK',
-						'et'=>'et_EE',
-						'el'=>'el_GR',
-						'eu'=>'eu_ES',
-						'fa'=>'fa_IR',
-						'he'=>'he_IL',
-						'ka'=>'ka_GE',
-						'km'=>'km_KH',
-						'kn'=>'kn_IN',
-						'ko'=>'ko_KR',
-						'ja'=>'ja_JP',
-						'lo'=>'lo_LA',
-						'nb'=>'nb_NO',
-						'fa'=>'fa_IR',
-						'sq'=>'sq_AL',
-						'sr'=>'sr_RS',
-						'sv'=>'sv_SE',
-						'sl'=>'sl_SI',
-						'uk'=>'uk_UA',
-						'vi'=>'vi_VN',
-						'zh'=>'zh_CN'
+						'en' => 'en_US',
+						'am' => 'am_ET',
+						'ar' => 'ar_SA',
+						'bn' => 'bn_DB',
+						'bs' => 'bs_BA',
+						'ca' => 'ca_ES',
+						'cs' => 'cs_CZ',
+						'da' => 'da_DK',
+						'et' => 'et_EE',
+						'el' => 'el_GR',
+						'eu' => 'eu_ES',
+						'fa' => 'fa_IR',
+						'he' => 'he_IL',
+						'ka' => 'ka_GE',
+						'km' => 'km_KH',
+						'kn' => 'kn_IN',
+						'ko' => 'ko_KR',
+						'ja' => 'ja_JP',
+						'lo' => 'lo_LA',
+						'nb' => 'nb_NO',
+						'fa' => 'fa_IR',
+						'sq' => 'sq_AL',
+						'sr' => 'sr_RS',
+						'sv' => 'sv_SE',
+						'sl' => 'sl_SI',
+						'uk' => 'uk_UA',
+						'vi' => 'vi_VN',
+						'zh' => 'zh_CN'
 					);
 					if (strtolower($regs[1]) != strtolower($regs[2]) && !in_array($dir, $arrayofspecialmainlanguages)) {
 						continue;
@@ -770,9 +774,9 @@ class Translate
 				}
 
 				if ($usecode == 1 || !empty($conf->global->MAIN_SHOW_LANGUAGE_CODE)) {
-					$langs_available[$dir] = $dir.': '.dol_trunc($this->trans('Language_'.$dir), $maxlength);
+					$langs_available[$dir] = $dir . ': ' . dol_trunc($this->trans('Language_' . $dir), $maxlength);
 				} else {
-					$langs_available[$dir] = $this->trans('Language_'.$dir);
+					$langs_available[$dir] = $this->trans('Language_' . $dir);
 				}
 				if ($mainlangonly) {
 					$langs_available[$dir] = str_replace(' (United States)', '', $langs_available[$dir]);
@@ -796,14 +800,14 @@ class Translate
 		// phpcs:enable
 		// Test si fichier dans repertoire de la langue
 		foreach ($this->dir as $searchdir) {
-			if (is_readable(dol_osencode($searchdir."/langs/".$this->defaultlang."/".$filename))) {
+			if (is_readable(dol_osencode($searchdir . "/langs/" . $this->defaultlang . "/" . $filename))) {
 				return true;
 			}
 
 			if ($searchalt) {
 				// Test si fichier dans repertoire de la langue alternative
 				if ($this->defaultlang != "en_US") {
-					$filenamealt = $searchdir."/langs/en_US/".$filename;
+					$filenamealt = $searchdir . "/langs/en_US/" . $filename;
 				}
 				//else $filenamealt = $searchdir."/langs/fr_FR/".$filename;
 				if (is_readable(dol_osencode($filenamealt))) {
@@ -844,8 +848,8 @@ class Translate
 			}
 
 			$fonc = 'numberwords';
-			if (file_exists($newdir.'/functions_'.$fonc.'.lib.php')) {
-				include_once $newdir.'/functions_'.$fonc.'.lib.php';
+			if (file_exists($newdir . '/functions_' . $fonc . '.lib.php')) {
+				include_once $newdir . '/functions_' . $fonc . '.lib.php';
 				$newnumber = numberwords_getLabelFromNumber($this, $number, $isamount);
 				break;
 			}
@@ -896,13 +900,13 @@ class Translate
 		}
 
 		// Not found in loaded language file nor in cache. So we will take the label into database.
-		$sql = "SELECT ".$fieldlabel." as label";
-		$sql .= " FROM ".MAIN_DB_PREFIX.$tablename;
-		$sql .= " WHERE ".$fieldkey." = '".$db->escape($keyforselect ? $keyforselect : $key)."'";
+		$sql = "SELECT " . $fieldlabel . " as label";
+		$sql .= " FROM " . MAIN_DB_PREFIX . $tablename;
+		$sql .= " WHERE " . $fieldkey . " = '" . $db->escape($keyforselect ? $keyforselect : $key) . "'";
 		if ($filteronentity) {
-			$sql .= " AND entity IN (".getEntity($tablename).')';
+			$sql .= " AND entity IN (" . getEntity($tablename) . ')';
 		}
-		dol_syslog(get_class($this).'::getLabelFromKey', LOG_DEBUG);
+		dol_syslog(get_class($this) . '::getLabelFromKey', LOG_DEBUG);
 		$resql = $db->query($sql);
 		if ($resql) {
 			$obj = $db->fetch_object($resql);
@@ -935,9 +939,9 @@ class Translate
 		$symbol = $this->getCurrencySymbol($currency_code);
 
 		if (in_array($currency_code, array('USD'))) {
-			return $symbol.$amount;
+			return $symbol . $amount;
 		} else {
-			return $amount.$symbol;
+			return $amount . $symbol;
 		}
 	}
 
@@ -984,14 +988,14 @@ class Translate
 		}
 
 		$sql = "SELECT code_iso, label, unicode";
-		$sql .= " FROM ".MAIN_DB_PREFIX."c_currencies";
+		$sql .= " FROM " . MAIN_DB_PREFIX . "c_currencies";
 		$sql .= " WHERE active = 1";
 		if (!empty($currency_code)) {
-			$sql .= " AND code_iso = '".$db->escape($currency_code)."'";
+			$sql .= " AND code_iso = '" . $db->escape($currency_code) . "'";
 		}
 		//$sql.= " ORDER BY code_iso ASC"; // Not required, a sort is done later
 
-		dol_syslog(get_class($this).'::loadCacheCurrencies', LOG_DEBUG);
+		dol_syslog(get_class($this) . '::loadCacheCurrencies', LOG_DEBUG);
 		$resql = $db->query($sql);
 		if ($resql) {
 			$this->load("dict");
@@ -1008,7 +1012,7 @@ class Translate
 				$obj = $db->fetch_object($resql);
 
 				// Si traduction existe, on l'utilise, sinon on prend le libelle par defaut
-				$this->cache_currencies[$obj->code_iso]['label'] = ($obj->code_iso && $this->trans("Currency".$obj->code_iso) != "Currency".$obj->code_iso ? $this->trans("Currency".$obj->code_iso) : ($obj->label != '-' ? $obj->label : ''));
+				$this->cache_currencies[$obj->code_iso]['label'] = ($obj->code_iso && $this->trans("Currency" . $obj->code_iso) != "Currency" . $obj->code_iso ? $this->trans("Currency" . $obj->code_iso) : ($obj->label != '-' ? $obj->label : ''));
 				$this->cache_currencies[$obj->code_iso]['unicode'] = (array) json_decode($obj->unicode, true);
 				$label[$obj->code_iso] = $this->cache_currencies[$obj->code_iso]['label'];
 				$i++;
@@ -1041,8 +1045,8 @@ class Translate
 		$substitutionarray = array();
 
 		foreach ($this->tab_translate as $code => $label) {
-			$substitutionarray['lang_'.$code] = $label;
-			$substitutionarray['__('.$code.')__'] = $label;
+			$substitutionarray['lang_' . $code] = $label;
+			$substitutionarray['__(' . $code . ')__'] = $label;
 		}
 
 		return $substitutionarray;
