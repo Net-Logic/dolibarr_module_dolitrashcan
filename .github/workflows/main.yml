@@ -49,6 +49,8 @@ jobs:
           php ./.tx/autotranslator.php fr_FR de_DE ${{ secrets.GOOGLE_API_TRANSLATE }}
       - name: Run changelog
         run: npx lerna-changelog
+        env:
+          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
       - name: Bump version and push tag
         uses: Net-Logic/github-dolibarr-action@main
         env:
