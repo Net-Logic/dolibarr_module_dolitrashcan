@@ -32,7 +32,8 @@ jobs:
           tools: php-parallel-lint/php-var-dump-check, parallel-lint, cs2pr, phpcs
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 14.x
+          registry-url: 'https://registry.npmjs.org'
       - name: Print PHP version
         run: echo ${{ steps.setup-php.outputs.php-version }}
       - name: Run PHPCS
