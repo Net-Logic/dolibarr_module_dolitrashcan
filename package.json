@@ -10,7 +10,6 @@
       "bug": ":bug: Bug Fix",
       "documentation": ":memo: Documentation",
       "internal": ":house: Internal"
-    },
-    "cacheDir": ".changelog"
+    }
   }
 }
