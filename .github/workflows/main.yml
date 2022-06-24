@@ -32,7 +32,8 @@ jobs:
           tools: php-parallel-lint/php-var-dump-check, parallel-lint, cs2pr, phpcs
       - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 14.x
+          registry-url: 'https://registry.npmjs.org'
       - name: Print PHP version
         run: echo ${{ steps.setup-php.outputs.php-version }}
       - name: Run PHPCS
@@ -48,7 +49,7 @@ jobs:
           php ./.tx/autotranslator.php fr_FR es_ES ${{ secrets.GOOGLE_API_TRANSLATE }}
           php ./.tx/autotranslator.php fr_FR de_DE ${{ secrets.GOOGLE_API_TRANSLATE }}
       - name: Run changelog
-        run: npx lerna-changelog
+        run: npx lerna-changelog --from=b5e6ef6
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
       - name: Bump version and push tag
