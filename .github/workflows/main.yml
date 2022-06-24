@@ -30,10 +30,11 @@ jobs:
         with:
           php-version: '7.4'
           tools: php-parallel-lint/php-var-dump-check, parallel-lint, cs2pr, phpcs
-
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
       - name: Print PHP version
         run: echo ${{ steps.setup-php.outputs.php-version }}
-
       - name: Run PHPCS
         run: phpcs -q --report=checkstyle --standard=codesniffer/ruleset.xml --extensions=php --ignore=vendor/ --ignore=.tx/ . | cs2pr
       - name: Run Paralell Lint
@@ -46,6 +47,10 @@ jobs:
           php ./.tx/autotranslator.php fr_FR en_US ${{ secrets.GOOGLE_API_TRANSLATE }}
           php ./.tx/autotranslator.php fr_FR es_ES ${{ secrets.GOOGLE_API_TRANSLATE }}
           php ./.tx/autotranslator.php fr_FR de_DE ${{ secrets.GOOGLE_API_TRANSLATE }}
+      - name: Run changelog
+        run: npx lerna-changelog
+        env:
+          GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
       - name: Bump version and push tag
         uses: Net-Logic/github-dolibarr-action@main
         env:
