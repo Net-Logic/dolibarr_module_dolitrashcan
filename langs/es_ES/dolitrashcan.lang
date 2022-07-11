@@ -29,3 +29,4 @@ DoliTrashCanDeletedAt=Bórralo
 DoliTrashCanContext=contexto
 DoliTrashCanFileWasMovedTo=El archivo %s se ha movido a la papelera.
 DoliTrashCanDestroy=eliminar definitivamente
+DoliTrashCanReallyDestroy=¿Está seguro de que desea eliminar el archivo?

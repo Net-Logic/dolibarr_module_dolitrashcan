@@ -29,3 +29,4 @@ DoliTrashCanDeletedAt=Lösche es
 DoliTrashCanContext=Kontext
 DoliTrashCanFileWasMovedTo=Die %s-Datei wurde in den Papierkorb verschoben.
 DoliTrashCanDestroy=Unbedingt löschen
+DoliTrashCanReallyDestroy=Möchten Sie die Datei wirklich löschen?
