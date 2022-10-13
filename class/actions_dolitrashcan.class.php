@@ -161,11 +161,12 @@ class ActionsDoliTrashCan
 				$sql .= ' WHERE deleted_at <"' . $this->db->idate($now - $secondsbeforedelete) . '"';
 
 				$resql = $this->db->query($sql);
+
 				while ($resql && ($obj = $this->db->fetch_object($resql))) {
 					@unlink(DOL_DATA_ROOT . '/dolitrashcan/' . $obj->trashcan_filename);
-					$sql = 'DELETE FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
-					$sql .= ' WHERE rowid=' . (int) $obj->rowid;
-					$resql = $this->db->query($sql);
+					$sql1 = 'DELETE FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
+					$sql1 .= ' WHERE rowid=' . (int) $obj->rowid;
+					$this->db->query($sql1);
 					// destroy old files
 					setEventMessage($obj->original_filename . ' destroyed');
 				}

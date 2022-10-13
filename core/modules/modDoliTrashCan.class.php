@@ -73,9 +73,9 @@ class modDoliTrashCan extends DolibarrModules
 		$this->editor_url = 'https://netlogic.fr';
 
 		// Possible values for version are: 'development', 'experimental', 'dolibarr', 'dolibarr_deprecated' or a version string like 'x.y.z'
-		$this->version = '1.0.1';
+		$this->version = '1.0.2';
 		// Url to the file with your last numberversion of this module
-		//$this->url_last_version = 'http://www.example.com/versionmodule.txt';
+		$this->url_last_version = 'https://wiki.netlogic.fr/versionmodule.php?module=dolitrashcan';
 
 		// Key used in llx_const table to save module status enabled/disabled (where DOLITRASHCAN is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);
