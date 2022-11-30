@@ -1,5 +1,5 @@
 
-## 1.0.0 (2022-10-13)
+## 1.0.0 (2022-11-30)
 
 #### :rocket: Enhancement
 * [#27](https://github.com/Net-Logic/dolibarr_module_dolitrashcan/pull/27) Changelog auto ([@frederic34](https://github.com/frederic34))
