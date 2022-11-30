@@ -168,7 +168,7 @@ class ActionsDoliTrashCan
 					$sql1 .= ' WHERE rowid=' . (int) $obj->rowid;
 					$this->db->query($sql1);
 					// destroy old files
-					setEventMessage($obj->original_filename . ' destroyed');
+					// setEventMessage($obj->original_filename . ' destroyed');
 				}
 			}
 		}
