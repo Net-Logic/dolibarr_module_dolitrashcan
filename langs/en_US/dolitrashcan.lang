@@ -1,51 +1,14 @@
-# Copyright (C) 2022 Frédéric France <frederic.france@netlogic.fr>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-#
-# Generic
-#
-
-# Module label 'ModuleDoliTrashCanName'
-ModuleDoliTrashCanName = DoliTrashCan
-# Module description 'ModuleDoliTrashCanDesc'
-ModuleDoliTrashCanDesc=La corbeille de dolibarr pour ne plus perdre vos fichiers supprimés
-
-#
-# Admin page
-#
-DoliTrashCanSetup = DoliTrashCan setup
-Settings = Settings
-DoliTrashCanSetupPage = DoliTrashCan setup page
-DOLITRASHCAN_MYPARAM1 = My param 1
-DOLITRASHCAN_MYPARAM1Tooltip = My param 1 tooltip
-DOLITRASHCAN_MYPARAM2=My param 2
-DOLITRASHCAN_MYPARAM2Tooltip=My param 2 tooltip
-
-
-#
-# About page
-#
-About = About
-DoliTrashCanAbout = About DoliTrashCan
-DoliTrashCanAboutPage = DoliTrashCan about page
-
-DolitrashcanErrorMovingFileToTrashcan=Error when moving file into trashcan.
-
-
 // START - Lines generated via autotranslator.php tool (2022-06-17 11:20:40).
 // Reference language: fr_FR -> en_US
+
+Settings=Settings
+About=About
+ModuleDoliTrashCanName=DoliTrashCan
+DoliTrashCanSetup=DoliTrashCan setup
+DoliTrashCanSetupPage=DoliTrashCan setup page
+DoliTrashCanAbout=About DoliTrashCan
+DoliTrashCanAboutPage=DoliTrashCan about page
+DolitrashcanErrorMovingFileToTrashcan=Error when moving file into trashcan.
 DoliTrashCanSettings=Trash settings
 DOLITRASHCAN_DAYS_BEFORE_DELETE=Days before permanent deletion
 DOLITRASHCAN_DAYS_BEFORE_DELETETooltip=Files present in the recycle bin for this number of days will be permanently deleted.
