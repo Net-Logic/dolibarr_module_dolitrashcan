@@ -25,3 +25,4 @@ DoliTrashCanContext=context
 DoliTrashCanFileWasMovedTo=The %s file has been moved to the trash.
 DoliTrashCanDestroy=Delete definitely
 DoliTrashCanReallyDestroy=Are you sure you want to delete the file?
+ModuleDoliTrashCanDesc=The dolibarr recycle bin to stop losing your deleted files
