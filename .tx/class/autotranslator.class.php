@@ -85,7 +85,7 @@ class AutoTranslator
 			$fileContent = null;
 			$refPath = $this->langDir . $this->refLang . self::DIR_SEPARATOR . $file;
 			$fileContent = file($refPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-			print "Processing file " . $file . ", with " . count($fileContent) . " lines<br>\n";
+			print "Processing file " . $file . ", with " . count($fileContent) . " lines\n";
 
 			// Define target dirs
 			$targetlangs = array($this->destlang);
@@ -136,10 +136,10 @@ class AutoTranslator
 				// Check destination file presence
 				if (!file_exists($destPath)) {
 					// No file present, we generate file
-					echo "File not found: " . $destPath . ". We generate it.<br>\n";
+					echo "File not found: " . $destPath . ". We generate it.\n";
 					$this->createTranslationFile($destPath, $my_destlang);
 				} else {
-					echo "Updating file: " . $destPath . "<br>\n";
+					echo "Updating file: " . $destPath . "\n";
 				}
 
 				// Translate lines
@@ -154,7 +154,7 @@ class AutoTranslator
 				}
 
 				$this->updateTranslationFile($destPath, $file, $my_destlang);
-				echo "New translated lines: " . $newlines . "<br>\n";
+				echo "New translated lines: " . $newlines . "\n";
 			}
 		}
 	}
