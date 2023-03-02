@@ -53,7 +53,7 @@ class modDoliTrashCan extends DolibarrModules
 
 		// Family can be 'base' (core modules),'crm','financial','hr','projects','products','ecm','technic' (transverse modules),'interface' (link with external tools),'other','...'
 		// It is used to group modules by family in module setup page
-		$this->family = 'Net Logic';
+		$this->family = 'Net-Logic';
 
 		// Module position in the family on 2 digits ('01', '10', '20', ...)
 		$this->module_position = '90';
@@ -108,18 +108,18 @@ class modDoliTrashCan extends DolibarrModules
 			'theme' => 0,
 			// Set this to relative path of css file if module has its own css file
 			'css' => [
-				//    '/dolitrashcan/css/dolitrashcan.css.php',
+				// '/dolitrashcan/css/dolitrashcan.css.php',
 			],
 			// Set this to relative path of js file if module must load a js on all pages
 			'js' => [
-				//   '/dolitrashcan/js/dolitrashcan.js.php',
+				// '/dolitrashcan/js/dolitrashcan.js.php',
 			],
 			// Set here all hooks context managed by module. To find available hook context, make a "grep -r '>initHooks(' *" on source code. You can also set hook context to 'all'
 			'hooks' => [
 				'data' => [
 					'fileslib',
 				],
-				'entity' => '0',
+				'entity' => $conf->entity,
 			],
 			// Set this to 1 if features of module are opened to external users
 			'moduleforexternal' => 0,
