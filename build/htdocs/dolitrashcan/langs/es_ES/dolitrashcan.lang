@@ -1,0 +1,32 @@
+/*
+ * Language code: es_ES
+ * Generation date 2022-06-17 11:26:33
+ */
+
+
+// START - Lines generated via autotranslator.php tool (2022-06-17 11:26:33).
+// Reference language: fr_FR -> es_ES
+ModuleDoliTrashCanName=DoliPapelera
+ModuleDoliTrashCanDesc=La papelera de reciclaje dolibarr para dejar de perder tus archivos borrados
+DoliTrashCanSetup=La canasta de dolibarr
+DoliTrashCanSettings=Configuración de la papelera
+DoliTrashCanSetupPage=Página de configuración de DoliTrashCan
+DOLITRASHCAN_DAYS_BEFORE_DELETE=Días antes de la eliminación permanente
+DOLITRASHCAN_DAYS_BEFORE_DELETETooltip=Los archivos presentes en la papelera de reciclaje durante este número de días se eliminarán de forma permanente.
+About=Sobre
+DoliTrashCanAbout=Acerca de DoliTrashCan
+DoliTrashCanAboutPage=área de basura
+DoliTrashCanArea=Cesta
+DoliTrashCan=Cesta
+DolitrashcanErrorMovingFileToTrashcan=Error al mover el archivo a la papelera.
+DoliTrashCanFileRestored=El archivo %s ha sido restaurado.
+DoliTrashCanFileDestroyed=El archivo %s ha sido destruido
+DoliTrashCanRestoreFile=Recuperar archivo de la papelera de reciclaje
+DoliTrashCanDeletedFiles=Archivos eliminados
+DoliTrashCanMimetype=tipo de Mimica
+DoliTrashCanDeletedBy=Eliminado por
+DoliTrashCanDeletedAt=Bórralo
+DoliTrashCanContext=contexto
+DoliTrashCanFileWasMovedTo=El archivo %s se ha movido a la papelera.
+DoliTrashCanDestroy=eliminar definitivamente
+DoliTrashCanReallyDestroy=¿Está seguro de que desea eliminar el archivo?

@@ -1,0 +1,15 @@
+{
+  "name": "dolitrashcan",
+  "changelog": {
+    "repo": "Net-Logic/dolibarr_module_dolitrashcan",
+    "nextVersion": "1.0.0",
+    "labels": {
+      "nextVersion": "Unreleased",
+      "breaking": ":boom: Breaking Change",
+      "enhancement": ":rocket: Enhancement",
+      "bug": ":bug: Bug Fix",
+      "documentation": ":memo: Documentation",
+      "internal": ":house: Internal"
+    }
+  }
+}
