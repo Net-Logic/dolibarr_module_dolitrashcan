@@ -1,0 +1,6 @@
+<changelog>
+	<Version Number="15.0.+1.0.0" MonthVersion="2022-06">
+		<change type='inf'>First release</change>
+	</Version>
+	<Dolibarr minVersion="10.0.0"/>
+</changelog>
