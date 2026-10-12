@@ -1,79 +1,55 @@
-# DOLITRASHCAN FOR [DOLIBARR ERP CRM](https://www.dolibarr.org)
+# DoliTrashCan: a trash for [Dolibarr ERP CRM](https://www.dolibarr.org) by [Net Logic](https://netlogic.fr)
+
+Files deleted from the document areas of Dolibarr (third parties, proposals, orders, invoices, projects...) are kept in a trash instead of disappearing. You see who deleted them, when and from which record, and you can restore them or delete them for good.
 
 ## Features
 
-Move deleted files in a trashcan
+| Feature | What it does |
+|---|---|
+| **Automatic** | The standard delete buttons of Dolibarr send the file to the trash: nothing to set up on the objects. |
+| **Trash page** | In the ECM menu: deleted files with their type, the user, the date and a link to the record they belonged to. |
+| **Restore** | Puts the file back where it was in one click and indexes it again in the ECM. A file that exists again is never overwritten. |
+| **Delete permanently** | Asks for a confirmation and removes the file for good. |
+| **Automatic purge** | Files older than the number of days you choose (365 by default, 0 keeps them for ever) are removed for good. |
+| **Safe** | If a file cannot be put in the trash, it is not deleted. Temporary files and thumbnails are not kept. |
 
-<!--
-![Screenshot dolitrashcan](img/screenshot_dolitrashcan.png?raw=true "DoliTrashCan"){imgmd}
--->
+## Requirements
 
-Other external modules are available on [Dolistore.com](https://www.dolistore.com).
-
-## Translations
-
-Translations can be completed manually by editing files into directories *langs*.
-
-<!--
-This module contains also a sample configuration for Transifex, under the hidden directory [.tx](.tx), so it is possible to manage translation using this service.
-
-For more informations, see the [translator's documentation](https://wiki.dolibarr.org/index.php/Translator_documentation).
-
-There is a [Transifex project](https://transifex.com/projects/p/dolibarr-module-template) for this module.
--->
-
-<!--
+| Requirement | Version |
+|---|---|
+| Dolibarr | 20.0 or later |
+| PHP | 7.4 or later |
+| Module | ECM enabled |
 
 ## Installation
 
-### From the ZIP file and GUI interface
+1. Download `module_dolitrashcan-x.y.z.zip` from DoliStore or the GitHub releases.
+2. Use **Home → Setup → Modules → Deploy an external module** to upload it.
+3. Enable **DoliTrashCan** in **Home → Setup → Modules**, then give the permissions to your users.
 
-- If you get the module in a zip file (like when downloading it from the market place [Dolistore](https://www.dolistore.com)), go into
-menu ```Home - Setup - Modules - Deploy external module``` and upload the zip file.
+## Setup
 
-Note: If this screen tell you there is no custom directory, check your setup is correct:
+Open the setup page of the module (the wrench icon in the module list). The only setting is **Days before permanent deletion**: files that have been in the trash for that many days are deleted for good when a new file is deleted. Use 0 to keep them for ever.
 
-- In your Dolibarr installation directory, edit the ```htdocs/conf/conf.php``` file and check that following lines are not commented:
+## Using the trash
 
-    ```php
-    //$dolibarr_main_url_root_alt ...
-    //$dolibarr_main_document_root_alt ...
-    ```
+The **Trash** entry is in the ECM menu. For each deleted file you see its type, who deleted it, when, and the record it belonged to.
 
-- Uncomment them if necessary (delete the leading ```//```) and assign a sensible value according to your Dolibarr installation
+| Permission | Allows |
+|---|---|
+| Read | See the trash |
+| Create/Update | Restore a file |
+| Delete | Delete a file permanently |
 
-    For example :
+Restoring puts the file back in its original folder, which is created again if needed. If a file with the same name exists again, it is not overwritten: the file stays in the trash and a message tells you.
 
-    - UNIX:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = '/var/www/Dolibarr/htdocs/custom';
-        ```
+## What goes to the trash
 
-    - Windows:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = 'C:/My Web Sites/Dolibarr/htdocs/custom';
-        ```
+Every file deleted through the standard Dolibarr functions, except temporary files, thumbnails, and files outside the documents directory.
 
-### From a GIT repository
+## Translations
 
-- Clone the repository in ```$dolibarr_main_document_root_alt/dolitrashcan```
-
-```sh
-cd ....../custom
-git clone git@github.com:gitlogin/dolitrashcan.git dolitrashcan
-```
-
-### <a name="final_steps"></a>Final steps
-
-From your browser:
-
-  - Log into Dolibarr as a super-administrator
-  - Go to "Setup" -> "Modules"
-  - You should now be able to find and enable the module
-
--->
+English, French, German, Italian and Spanish. Translations can be completed by editing the files in *langs*.
 
 ## Licenses
 

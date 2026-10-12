@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (C) 2004-2018  Laurent Destailleur     <eldy@users.sourceforge.net>
  * Copyright (C) 2018-2019  Nicolas ZABOURI         <info@inovea-conseil.com>
  * Copyright (C) 2019-2022  Frédéric France         <frederic.france@netlogic.fr>
@@ -25,6 +26,7 @@
  *  \ingroup    dolitrashcan
  *  \brief      Description and activation file for module DoliTrashCan
  */
+
 include_once DOL_DOCUMENT_ROOT . '/core/modules/DolibarrModules.class.php';
 
 // phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps
@@ -73,7 +75,7 @@ class modDoliTrashCan extends DolibarrModules
 		$this->editor_url = 'https://netlogic.fr';
 
 		// Possible values for version are: 'development', 'experimental', 'dolibarr', 'dolibarr_deprecated' or a version string like 'x.y.z'
-		$this->version = '1.0.2';
+		$this->version = '1.1.0';
 		// Url to the file with your last numberversion of this module
 		$this->url_last_version = 'https://wiki.netlogic.fr/versionmodule.php?module=dolitrashcan';
 
@@ -146,8 +148,8 @@ class modDoliTrashCan extends DolibarrModules
 		$this->langfiles = ["dolitrashcan@dolitrashcan"];
 
 		// Prerequisites
-		$this->phpmin = [7, 0]; // Minimum version of PHP required by module
-		$this->need_dolibarr_version = [10, -3]; // Minimum version of Dolibarr required by module
+		$this->phpmin = [7, 4]; // Minimum version of PHP required by module
+		$this->need_dolibarr_version = [20, 0]; // Minimum version of Dolibarr required by module
 
 		// Messages at activation
 		$this->warnings_activation = []; // Warning to show when we activate module. ['always'='text') or ['FR'='textfr','MX'='textmx'...)
@@ -163,10 +165,6 @@ class modDoliTrashCan extends DolibarrModules
 		];
 		$this->const = [];
 
-		if (!isset($conf->dolitrashcan) || !isset($conf->dolitrashcan->enabled)) {
-			$conf->dolitrashcan = new stdClass();
-			$conf->dolitrashcan->enabled = 0;
-		}
 
 		// Array to add new pages in new tabs
 		$this->tabs = [];
@@ -320,9 +318,9 @@ class modDoliTrashCan extends DolibarrModules
 			'langs' => 'dolitrashcan@dolitrashcan',
 			'position' => 1000 + $r,
 			// Define condition to show or hide menu entry. Use '$conf->dolitrashcan->enabled' if entry must be visible if module is enabled.
-			'enabled' => '$conf->dolitrashcan->enabled',
+			'enabled' => 'isModEnabled("dolitrashcan")',
 			// Use 'perms'=>'$user->rights->dolitrashcan->level1->level2' if you want your menu with a permission rules
-			'perms' => '$user->rights->dolitrashcan->read',
+			'perms' => '$user->hasRight("dolitrashcan", "read")',
 			'target' => '',
 			// 0=Menu for internal users, 1=external users, 2=both
 			'user' => 0,

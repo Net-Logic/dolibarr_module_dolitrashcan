@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2019-2022  Frédéric France     <frederic.france@netlogic.fr>
  *

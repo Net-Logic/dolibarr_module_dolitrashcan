@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (C) 2020-2022  Frédéric FRANCE <frederic.france@netlogic.fr>
  *
@@ -19,14 +20,12 @@
 /**
  * \file    dolitrashcan/class/actions_dolitrashcan.class.php
  * \ingroup dolitrashcan
- * \brief   DoliTrasCan hook overload.
- *
- * Put detailed description here.
+ * \brief   DoliTrashCan hook overload: files deleted by Dolibarr are moved into the trashcan.
  */
 
 
 /**
- * Class ActionsDoliTrasCan
+ * Class ActionsDoliTrashCan
  */
 class ActionsDoliTrashCan
 {
@@ -66,147 +65,138 @@ class ActionsDoliTrashCan
 	}
 
 	/**
-	 * Overloading the deleteFile function : replacing the parent's function with the one below
+	 * Overloading the deleteFile function: the file is copied into the trashcan before the standard deletion
 	 *
-	 * @param   array           $parameters     Hook metadatas (context, etc...)
+	 * @param   array           $parameters     Hook metadatas (context, file, disableglob, nophperrors)
 	 * @param   CommonObject    $object         The object to process (an invoice if you are in invoice module, a propale in propale's module, etc...)
 	 * @param   string          $action         Current action (if set). Generally create or edit or null
 	 * @param   HookManager     $hookmanager    Hook manager propagated to allow calling another hook
-	 * @return  int                             < 0 on error, 0 on success, 1 to replace standard code
+	 * @return  int                             < 0 on error (the file is not deleted), 0 to let the standard code delete the file
 	 */
 	public function deleteFile($parameters, &$object, &$action, $hookmanager)
 	{
-		global $conf, $user, $langs, $lastTrashcanId;
+		global $langs, $user, $lastTrashcanId;
 
-		// Error counter
-		$error = 0;
-
-		// $parameters = [
-		// 	'GET' => $_GET,
-		// 	'file' => $file,
-		// 	'disableglob'=> $disableglob,
-		// 	'nophperrors' => $nophperrors
-		// ];
-
-		if (in_array($parameters['currentcontext'], ['fileslib']) && file_exists($parameters['file'])) {
-			// TODO paranoiac check if already exist
-			$movetodir = self::getRandomDir(4);
-			$movetofilename = $movetodir . self::getUuid() . '.trash';
-
-			// TODO HERE IS LA PLACE FOR DAS MAGIE 🥁
-			// MOVE FILE INTO TRASHCAN DIRECTORY WITH PHP MOVE NOT dol_move (restore will be done with dol_move to recreate ecm data)
-			if (!mkdir(DOL_DATA_ROOT . '/dolitrashcan/' . $movetodir, 0777, true)) {
-				$error++;
-			};
-			if (!$error && !copy($parameters['file'], DOL_DATA_ROOT . '/dolitrashcan/' . $movetofilename)) {
-				$error++;
-			}
-			if (!$error) {
-				$mimetype = dol_mimetype($parameters['file']);
-				$filelastmod = filemtime($parameters['file']);
-				// On success save info into db
-				// id (rowid...)
-				// original filename (remove DOL_DATA_ROOT)
-				// mimetype
-				// original_created_at
-				// deleted_at
-				// deleted_by (he's fired)
-				// element
-				// fk_element
-				// filename in trashcan A/B/C/D/uuid.trash so we can delete several time the same file
-				$fk_parent = $lastTrashcanId ?? null;
-				$now = dol_now();
-				$sql = 'INSERT INTO ' . MAIN_DB_PREFIX . 'dolitrashcan (';
-				$sql .= 'original_filename';
-				$sql .= ', original_created_at';
-				$sql .= ', mimetype';
-				$sql .= ', deleted_at';
-				$sql .= ', deleted_by';
-				$sql .= ', element';
-				$sql .= ', fk_element';
-				$sql .= ', trashcan_filename';
-				$sql .= ', fk_parent';
-				$sql .= ') VALUES (';
-				$sql .= '"' . $this->db->escape(str_replace(DOL_DATA_ROOT, '', $parameters['file'])) . '"';
-				$sql .= ' , ' . ($filelastmod ? '"' . $this->db->idate($filelastmod) . '"' : "null");
-				$sql .= ' , "' . $this->db->escape($mimetype) . '"';
-				$sql .= ' , "' . $this->db->idate($now, 'gmt') . '"';
-				$sql .= ' , ' . (is_object($user) ? (int) $user->id : "null");
-				$sql .= ' , ' . (is_object($object) ? ('"' . $this->db->escape($object->element) . '"') : "null");
-				$sql .= ' , ' . (is_object($object) ? (int) $object->id : "null");
-				$sql .= ' , "' . $this->db->escape($movetofilename) . '"';
-				$sql .= ' , ' . (!empty($fk_parent) ? (int) $fk_parent : "null");
-				$sql .= ')';
-				$this->db->query($sql);
-				// save last rowid to identify files deleted with the same action to group them
-				if (empty($lastTrashcanId)) {
-					$lastTrashcanId = $this->db->last_insert_id(MAIN_DB_PREFIX . 'dolitrashcan');
-				}
-				// setEventMessage('tid : '.$lastTrashcanId);
-				$langs->loadLangs(["other", "dolitrashcan@dolitrashcan"]);
-				// replace translation 'on the fly' to change next message only
-				$langs->tab_translate['FileWasRemoved'] = $langs->tab_translate['DoliTrashCanFileWasMovedTo'];
-				// check for olds files
-				$secondsbeforedelete = 86400 * ((int) ($conf->global->DOLITRASHCAN_DAYS_BEFORE_DELETE ?? 365));
-				$sql = "SELECT rowid";
-				$sql .= ', original_filename';
-				$sql .= ', original_created_at';
-				$sql .= ', mimetype';
-				$sql .= ', deleted_at';
-				$sql .= ', deleted_by';
-				$sql .= ', element';
-				$sql .= ', fk_element';
-				$sql .= ', trashcan_filename';
-				$sql .= ' FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
-				$sql .= ' WHERE deleted_at <"' . $this->db->idate($now - $secondsbeforedelete) . '"';
-
-				$resql = $this->db->query($sql);
-
-				while ($resql && ($obj = $this->db->fetch_object($resql))) {
-					@unlink(DOL_DATA_ROOT . '/dolitrashcan/' . $obj->trashcan_filename);
-					$sql1 = 'DELETE FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
-					$sql1 .= ' WHERE rowid=' . (int) $obj->rowid;
-					$this->db->query($sql1);
-					// destroy old files
-					// setEventMessage($obj->original_filename . ' destroyed');
-				}
-			}
-		}
-		if (!$error) {
-			// or return 1 to replace standard code
+		if (($parameters['currentcontext'] ?? '') !== 'fileslib' || !self::isTrashable($parameters['file'] ?? '')) {
 			return 0;
-		} else {
+		}
+
+		$langs->loadLangs(["other", "dolitrashcan@dolitrashcan"]);
+
+		$file = $parameters['file'];
+		$movetodir = $this->getRandomDir(4);
+		$movetofilename = $movetodir . $this->getUuid() . '.trash';
+		$trashdir = DOL_DATA_ROOT . '/dolitrashcan/';
+
+		// Copy (not move): the standard code deletes the original file and its ECM entry afterwards
+		if (dol_mkdir($trashdir . $movetodir) < 0 || dol_copy($file, $trashdir . $movetofilename, '0', 1, 0, 0) < 0) {
 			$this->errors[] = $langs->trans('DolitrashcanErrorMovingFileToTrashcan');
 			return -1;
+		}
+
+		$now = dol_now();
+		$filelastmod = filemtime($file);
+		$fk_parent = $lastTrashcanId ?? null;
+		$sql = 'INSERT INTO ' . MAIN_DB_PREFIX . 'dolitrashcan (';
+		$sql .= 'original_filename, original_created_at, mimetype, deleted_at, deleted_by, element, fk_element, trashcan_filename, fk_parent';
+		$sql .= ") VALUES ('" . $this->db->escape(substr($file, strlen(DOL_DATA_ROOT))) . "'";
+		$sql .= ', ' . ($filelastmod ? "'" . $this->db->idate($filelastmod) . "'" : 'NULL');
+		$sql .= ", '" . $this->db->escape(dol_mimetype($file)) . "'";
+		$sql .= ", '" . $this->db->idate($now) . "'";
+		$sql .= ', ' . (is_object($user) && $user->id > 0 ? (int) $user->id : 'NULL');
+		$sql .= ', ' . (is_object($object) && !empty($object->element) ? "'" . $this->db->escape($object->element) . "'" : 'NULL');
+		$sql .= ', ' . (is_object($object) && !empty($object->id) ? (int) $object->id : 'NULL');
+		$sql .= ", '" . $this->db->escape($movetofilename) . "'";
+		$sql .= ', ' . (!empty($fk_parent) ? (int) $fk_parent : 'NULL');
+		$sql .= ')';
+		if (!$this->db->query($sql)) {
+			// No trace in the database: the copy is useless, the file must not be deleted without being recoverable
+			@unlink($trashdir . $movetofilename);
+			$this->errors[] = $langs->trans('DolitrashcanErrorMovingFileToTrashcan');
+			return -1;
+		}
+		// Files deleted by the same action are grouped under the first one
+		if (empty($lastTrashcanId)) {
+			$lastTrashcanId = $this->db->last_insert_id(MAIN_DB_PREFIX . 'dolitrashcan');
+		}
+		// Replace the translation 'on the fly' to change the next message only
+		$langs->tab_translate['FileWasRemoved'] = $langs->tab_translate['DoliTrashCanFileWasMovedTo'];
+
+		$this->purgeOldFiles($now);
+
+		return 0;
+	}
+
+	/**
+	 * Tell if a file must go to the trashcan: an existing file of the documents directory, but neither
+	 * a temporary file, a thumbnail nor a file of the trashcan itself.
+	 *
+	 * @param   string  $file   Full path of the file
+	 * @return  bool
+	 */
+	private static function isTrashable($file)
+	{
+		if ($file === '' || strpos($file, DOL_DATA_ROOT . '/') !== 0 || !is_file($file)) {
+			return false;
+		}
+		$root = realpath(DOL_DATA_ROOT);
+		$real = realpath($file);
+		if ($root === false || $real === false || strpos($real, $root . DIRECTORY_SEPARATOR) !== 0) {
+			return false;
+		}
+		$relative = str_replace('\\', '/', substr($real, strlen($root)));
+		return !preg_match('#/(temp|thumbs|dolitrashcan)/#', $relative);
+	}
+
+	/**
+	 * Permanently delete the files kept longer than DOLITRASHCAN_DAYS_BEFORE_DELETE days (0 = keep for ever)
+	 *
+	 * @param   int     $now    Current timestamp
+	 * @return  void
+	 */
+	private function purgeOldFiles($now)
+	{
+		$days = getDolGlobalInt('DOLITRASHCAN_DAYS_BEFORE_DELETE', 365);
+		if ($days <= 0) {
+			return;
+		}
+		$sql = 'SELECT rowid, trashcan_filename FROM ' . MAIN_DB_PREFIX . 'dolitrashcan';
+		$sql .= " WHERE deleted_at < '" . $this->db->idate($now - 86400 * $days) . "'";
+		$resql = $this->db->query($sql);
+		while ($resql && ($obj = $this->db->fetch_object($resql))) {
+			@unlink(DOL_DATA_ROOT . '/dolitrashcan/' . $obj->trashcan_filename);
+			$this->db->query('DELETE FROM ' . MAIN_DB_PREFIX . 'dolitrashcan WHERE rowid = ' . ((int) $obj->rowid));
 		}
 	}
 
 	/**
-	 * generate random dir
-	 * @param int $num number of subdirectories
-	 * @return string
+	 * Generate a random directory, 4 levels of one character (a/b/c/d/)
+	 *
+	 * @param   int     $num    Number of subdirectories
+	 * @return  string
 	 */
 	private function getRandomDir($num)
 	{
 		$char = '0123456789abcdefghijklmnopqrstuvwxyz';
 		$ret = '';
 		for ($j = 0; $j < $num; $j++) {
-			$i = rand(0, strlen($char) - 1);
-			$ret .= $char[$i] . '/';
+			$ret .= $char[random_int(0, strlen($char) - 1)] . '/';
 		}
 		return $ret;
 	}
 
 	/**
-	 * generate uuid
-	 * @return string
+	 * Generate a version 4 uuid
+	 *
+	 * @return  string
 	 */
 	private function getUuid()
 	{
 		try {
 			$data = random_bytes(16);
 		} catch (Exception $e) {
-			// empty catch if not enough entropy
+			// not enough entropy: still unique enough for a file name
+			$data = hex2bin(md5(uniqid((string) mt_rand(), true)));
 		}
 		$data[6] = chr(ord($data[6]) & 0x0f | 0x40);
 		$data[8] = chr(ord($data[8]) & 0x3f | 0x80);

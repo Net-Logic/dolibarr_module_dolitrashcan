@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (C) 2022 		Frédéric France 		<frederic.france@netlogic.fr>
  *
  * This program is free software: you can redistribute it and/or modify

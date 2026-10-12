@@ -1,32 +1,25 @@
-/*
- * Language code: es_ES
- * Generation date 2022-06-17 11:26:33
- */
-
-
-// START - Lines generated via autotranslator.php tool (2022-06-17 11:26:33).
-// Reference language: fr_FR -> es_ES
-ModuleDoliTrashCanName=DoliPapelera
-ModuleDoliTrashCanDesc=La papelera de reciclaje dolibarr para dejar de perder tus archivos borrados
-DoliTrashCanSetup=La canasta de dolibarr
-DoliTrashCanSettings=Configuración de la papelera
-DoliTrashCanSetupPage=Página de configuración de DoliTrashCan
-DOLITRASHCAN_DAYS_BEFORE_DELETE=Días antes de la eliminación permanente
-DOLITRASHCAN_DAYS_BEFORE_DELETETooltip=Los archivos presentes en la papelera de reciclaje durante este número de días se eliminarán de forma permanente.
-About=Sobre
+ModuleDoliTrashCanName=DoliTrashCan
+ModuleDoliTrashCanDesc=La papelera de Dolibarr: los archivos eliminados se conservan y se pueden restaurar
+DoliTrashCan=Papelera
+DoliTrashCanArea=Papelera
+DoliTrashCanSetup=Configuración de la papelera
+DoliTrashCanSettings=Ajustes
+DoliTrashCanSetupPage=Defina durante cuánto tiempo se conservan en la papelera los archivos eliminados.
+DOLITRASHCAN_DAYS_BEFORE_DELETE=Días antes de la eliminación definitiva
+DOLITRASHCAN_DAYS_BEFORE_DELETETooltip=Los archivos que llevan este número de días en la papelera se eliminan definitivamente. 0 los conserva siempre.
 DoliTrashCanAbout=Acerca de DoliTrashCan
-DoliTrashCanAboutPage=área de basura
-DoliTrashCanArea=Cesta
-DoliTrashCan=Cesta
-DolitrashcanErrorMovingFileToTrashcan=Error al mover el archivo a la papelera.
-DoliTrashCanFileRestored=El archivo %s ha sido restaurado.
-DoliTrashCanFileDestroyed=El archivo %s ha sido destruido
-DoliTrashCanRestoreFile=Recuperar archivo de la papelera de reciclaje
 DoliTrashCanDeletedFiles=Archivos eliminados
-DoliTrashCanMimetype=tipo de Mimica
+DoliTrashCanMimetype=Tipo
 DoliTrashCanDeletedBy=Eliminado por
-DoliTrashCanDeletedAt=Bórralo
-DoliTrashCanContext=contexto
+DoliTrashCanDeletedAt=Eliminado el
+DoliTrashCanContext=Contexto
+DoliTrashCanRestoreFile=Restaurar el archivo
+DoliTrashCanDestroy=Eliminar definitivamente
+DoliTrashCanReallyDestroy=¿Está seguro de que desea eliminar definitivamente este archivo? Esta acción no se puede deshacer.
+DoliTrashCanFileRestored=El archivo %s ha sido restaurado.
+DoliTrashCanFileDestroyed=El archivo %s ha sido eliminado definitivamente.
 DoliTrashCanFileWasMovedTo=El archivo %s se ha movido a la papelera.
-DoliTrashCanDestroy=eliminar definitivamente
-DoliTrashCanReallyDestroy=¿Está seguro de que desea eliminar el archivo?
+DolitrashcanErrorMovingFileToTrashcan=Error al mover el archivo a la papelera: el archivo no se ha eliminado.
+DoliTrashCanSomethingNotFound=Este archivo ya no está en la papelera.
+DoliTrashCanSomethingWentWrong=Se ha producido un error, no se ha modificado nada.
+DoliTrashCanRestoreTargetExists=El archivo %s existe de nuevo: no se ha sobrescrito y permanece en la papelera.
