@@ -64,8 +64,11 @@ if ($id > 0 && $action == 'restorefile' && $_SERVER['REQUEST_METHOD'] === 'POST'
 	} else {
 		$source = DOL_DATA_ROOT . '/dolitrashcan/' . $file->trashcan_filename;
 		$target = DOL_DATA_ROOT . $file->original_filename;
-		if (preg_match('/\.\./', $file->original_filename) || dol_is_file($target)) {
-			// never overwrite a file that exists again, never leave the documents directory
+		if (strpos($file->original_filename, '/') !== 0 || preg_match('/\.\./', $file->original_filename)) {
+			// old rows of another server (full path) are never restored outside the documents directory
+			setEventMessages($langs->trans('DoliTrashCanSomethingWentWrong'), null, 'errors');
+		} elseif (dol_is_file($target)) {
+			// never overwrite a file that exists again
 			setEventMessages($langs->trans('DoliTrashCanRestoreTargetExists', $file->original_filename), null, 'errors');
 		} elseif (dol_mkdir(dirname($target)) < 0 || dol_copy($source, $target, '0', 0, 0, 0) <= 0) {
 			setEventMessages($langs->trans('DoliTrashCanSomethingWentWrong'), null, 'errors');
@@ -163,7 +166,7 @@ while ($resql && $i < $num && ($obj = $db->fetch_object($resql))) {
 		print '</form>';
 	}
 	if ($user->hasRight('dolitrashcan', 'delete')) {
-		print '&nbsp;<a class="reposition" href="' . $_SERVER["PHP_SELF"] . '?action=destroyfile&id=' . ((int) $obj->rowid) . '&page=' . $page . '"><span class="fa fa-fire" style="color: red;" title="' . dol_escape_htmltag($langs->trans('DoliTrashCanDestroy')) . '"></span></a>';
+		print '&nbsp;<a class="reposition" href="' . $_SERVER["PHP_SELF"] . '?action=destroyfile&token=' . newToken() . '&id=' . ((int) $obj->rowid) . '&page=' . $page . '"><span class="fa fa-fire" style="color: red;" title="' . dol_escape_htmltag($langs->trans('DoliTrashCanDestroy')) . '"></span></a>';
 	}
 	print '</td>';
 	print '</tr>';
