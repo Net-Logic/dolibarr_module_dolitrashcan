@@ -11,6 +11,7 @@
 * A deletion is refused when the trash entry cannot be written to the database (the file was lost before).
 * Temporary files, thumbnails and files outside the documents directory are no longer put in the trash.
 * Restore and permanent deletion needed only the read permission: they now need the create/update and delete permissions, restore is a POST with the CSRF token, and permanent deletion asks for a confirmation (GET links changed the data).
+* Rows saved with a full path of another server (old installations) are never restored outside the documents directory.
 * File names and types are escaped in the list (XSS), the list is paginated.
 * "Days before permanent deletion": 0 keeps the files for ever (it used to purge every file at the next deletion).
 * Missing translations (error messages, "not found") and wrong ones ("Delete it" for "Deleted on", "Basket"...): all five languages rewritten.
