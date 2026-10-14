@@ -75,7 +75,7 @@ class modDoliTrashCan extends DolibarrModules
 		$this->editor_url = 'https://netlogic.fr';
 
 		// Possible values for version are: 'development', 'experimental', 'dolibarr', 'dolibarr_deprecated' or a version string like 'x.y.z'
-		$this->version = '1.1.0';
+		$this->version = '1.1.1';
 		// Url to the file with your last numberversion of this module
 		$url = 'https://wiki.netlogic.fr/versionmodule.php?module=' . strtolower($this->name) . '&number=' . $this->numero . '&version=' . $this->version . '&dolversion=' . DOL_VERSION;
 		$this->url_last_version = $url;

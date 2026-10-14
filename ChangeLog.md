@@ -1,3 +1,8 @@
+## 1.1.1
+
+#### Documentation
+* DoliStore page in the shared Net-Logic layout (dolistore-sync v0.4.4). No code change.
+
 ## 1.1.0
 
 #### Compatibility
