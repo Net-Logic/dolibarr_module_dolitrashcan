@@ -1,3 +1,8 @@
+## 1.1.2
+
+#### Documentation
+* DoliStore page: Net Logic banner at the top of the description (dolistore-sync v0.5.0). No code change.
+
 ## 1.1.1
 
 #### Documentation
